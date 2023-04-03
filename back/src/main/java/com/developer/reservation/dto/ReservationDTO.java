@@ -5,7 +5,7 @@ import java.util.Date;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import com.developer.hostuser.dto.HostUserDTO;
+import com.developer.host.dto.HostDTO;
 import com.developer.roominfo.dto.RoomInfoDTO;
 import com.developer.roomreview.dto.RoomReviewDTO;
 import com.developer.users.dto.UsersDTO;
@@ -25,7 +25,7 @@ public class ReservationDTO {
 	private Date usingDate;
 
 	private RoomInfoDTO roomInfoDTO;
-	private HostUserDTO hostUserDTO;
+	private HostDTO hostDTO;
 	private UsersDTO usersDTO;
 	private RoomReviewDTO roomReviewDTO;
 

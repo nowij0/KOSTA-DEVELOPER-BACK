@@ -4,8 +4,8 @@ import java.util.List;
 
 import com.developer.lesson.dto.LessonDTO;
 import com.developer.roominfo.dto.RoomInfoDTO;
-import com.developer.studyroom.dto.StudyroomDTO;
-import com.developer.studyroom.entity.Studyroom;
+import com.developer.studycafe.dto.StudycafeDTO;
+import com.developer.studycafe.entity.Studycafe;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -16,7 +16,7 @@ public class AdminDTO {
 	@Data
 	@NoArgsConstructor
 	public static class getList5DTO {
-		private List<StudyroomDTO.StudyroomList5DTO> studyroomList5DTO;
+		private List<StudycafeDTO.StudycafeList5DTO> studycafeList5DTO;
 		private List<LessonDTO.LessonList5DTO> lessonList5DTO;
 	}
 
@@ -24,7 +24,7 @@ public class AdminDTO {
 	@Data
 	@NoArgsConstructor
 	public static class adminStudyroomDetailDTO {
-		private Studyroom s;
+		private Studycafe s;
 		private List<RoomInfoDTO.getReservationDTO> ReservationDTO;
 	}
 }

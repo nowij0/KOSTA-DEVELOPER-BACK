@@ -10,13 +10,13 @@ import com.developer.lesson.entity.Lesson;
 
 public interface LessonRepository extends JpaRepository<Lesson, Long> {
 
-	//[JW]
-    @Query("select DISTINCT l from Lesson l join fetch l.alList ")
-    public List<Lesson> findAll();
+//	//[JW]
+//    @Query("select DISTINCT l from Lesson l join fetch l.alList ")
+//    public List<Lesson> findAll();
     
 	//[JW]
     @Query(nativeQuery = true,
-    			 	value = "SELECT lr.cdate AS cDate, lr.review AS review, lr.star AS star, al.tutee_id AS tuteeId, l.lesson_name AS lessonName, u.name AS name "
+    			 	value = "SELECT lr.lesson_review_date, lr.lesson_review, lr.lesson_star, al.tutee_id AS tuteeId, l.lesson_name AS lessonName, u.name AS name "
     			 	+ "FROM users u "
     			 	+ "INNER JOIN applied_lesson al "
     			 	+ "ON al.tutee_id = u.user_id "
@@ -36,16 +36,16 @@ public interface LessonRepository extends JpaRepository<Lesson, Long> {
 	//[JW]
 	@Query(nativeQuery = true,
 			value ="SELECT * FROM LESSON "
-					+ "    WHERE end_date >= SYSDATE "
+					+ "    WHERE apply_end > SYSDATE "
 					+ "    AND pay_lesson between 0 and 1 "
 					+ "ORDER BY lesson_name ASC")
 	public List<Object[]> userSelectAllLesson();
 	
 	
 	@Query(value="SELECT \n"
-			+ "	l.lesson_seq, l.lesson_name, l.category, l.content, l.people, l.img_path, l.start_cdate, l.end_cdate,\n"
-			+ "	l.price, l.start_date, l.end_date, l.location,\n"
-			+ "	t.info, t.img_path AS tutorImg, t.star_avg,\n"
+			+ "	l.lesson_seq, l.lesson_name, l.category, l.content, l.people, l.lesson_img, l.start_date, l.end_date,\n"
+			+ "	l.price, l.apply_start, l.apply_end, l.location,\n"
+			+ "	t.info, t.tutor_img AS tutorImg, t.star_avg,\n"
 			+ "	u.name\n"
 			+ "FROM lesson l\n"
 			+ "INNER JOIN tutor t\n"
@@ -53,7 +53,7 @@ public interface LessonRepository extends JpaRepository<Lesson, Long> {
 			+ "INNER JOIN users u \n"
 			+ "ON t.user_id = u.user_id\n"
 			+ "WHERE l.tutor_id = :userId \n"
-			+ "AND pay_lesson != 2",
+			+ "AND pay_lesson between 0 and 1",
 			nativeQuery = true)
 	public List<Object[]> selectTutorDetail(@Param("userId") String userId);
 
@@ -63,7 +63,7 @@ public interface LessonRepository extends JpaRepository<Lesson, Long> {
 				+ " where l.tutor_id = t.tutor_id"
 				+ " and t.tutor_id = u.user_id"
 				+ " and l.pay_lesson = 2"
-				+ " and TO_CHAR(SYSDATE,'yyyymmdd')<=l.end_date"
+				+ " and TO_CHAR(SYSDATE,'yyyymmdd')<=l.apply_end"
 				+ " and t.tutor_id = :logined"
 				+ " order by l.lesson_seq desc", nativeQuery = true)
 		public List<Object[]> unpaidLessonByUser(@Param("logined") String logined);
@@ -75,7 +75,7 @@ public interface LessonRepository extends JpaRepository<Lesson, Long> {
 				+ "	and t.tutor_id = u.user_id"
 				+ "	and u.user_id = :logined"
 				+ " and l.pay_lesson between 0 and 1"
-				+ "	and TO_CHAR(SYSDATE,'yyyymmdd')<l.start_cdate"
+				+ "	and TO_CHAR(SYSDATE,'yyyymmdd')<l.start_date"
 				+ "	order by l.lesson_seq desc",
 				nativeQuery = true)
 		public List<Object[]> getLessonByUser1(@Param("logined") String logined);
@@ -87,8 +87,8 @@ public interface LessonRepository extends JpaRepository<Lesson, Long> {
 				+ "	and t.tutor_id = u.user_id"
 				+ "	and u.user_id = :logined"
 				+ " and l.pay_lesson between 0 and 1"
-				+ "	and l.start_cdate<=TO_CHAR(SYSDATE,'yyyymmdd')"
-				+ " and TO_CHAR(SYSDATE,'yyyymmdd')<=l.end_cdate"
+				+ "	and l.start_date<=TO_CHAR(SYSDATE,'yyyymmdd')"
+				+ " and TO_CHAR(SYSDATE,'yyyymmdd')<=l.end_date"
 				+ "	order by l.lesson_seq desc",
 				nativeQuery = true)
 		public List<Object[]> getLessonByUser2(@Param("logined") String logined);
@@ -100,14 +100,14 @@ public interface LessonRepository extends JpaRepository<Lesson, Long> {
 				+ "	and t.tutor_id = u.user_id"
 				+ "	and u.user_id = :logined"
 				+ " and l.pay_lesson between 0 and 1"
-				+ "	and TO_CHAR(SYSDATE,'yyyymmdd')>l.end_cdate"
+				+ "	and TO_CHAR(SYSDATE,'yyyymmdd')>l.end_date"
 				+ "	order by l.lesson_seq desc",
 				nativeQuery = true)
 		public List<Object[]> getLessonByUser3(@Param("logined") String logined);
 	
 	
 		//[JH]
-		@Query(value= "	SELECT l.lesson_name, l.img_path, l.location, l.start_cdate, l.end_cdate,"
+		@Query(value= "	SELECT l.lesson_name, l.lesson_img, l.location, l.start_date, l.end_date,"
 				+ "	        l.category, l.people, u.name, l.lesson_seq"
 				+ "	FROM TUTOR t, LESSON l, USERS u"
 				+ "	WHERE u.user_id = t.tutor_id"
@@ -120,7 +120,7 @@ public interface LessonRepository extends JpaRepository<Lesson, Long> {
 				+ " from LESSON l, USERS u, APPLIED_LESSON a"
 				+ " where u.user_id = a.tutee_id"
 				+ " and l.lesson_seq = a.al_lesson_seq"
-				+ " and TO_CHAR(SYSDATE,'yyyy-mm-dd')<l.start_cdate"
+				+ " and TO_CHAR(SYSDATE,'yyyy-mm-dd')<l.start_date"
 				+ " and a.apply_ok=0"
 				+ " and u.user_id = :userId"
 				+ " order by l.lesson_seq desc", nativeQuery= true)
@@ -131,7 +131,7 @@ public interface LessonRepository extends JpaRepository<Lesson, Long> {
 				+ " from LESSON l, USERS u, APPLIED_LESSON a"
 				+ " where u.user_id = a.tutee_id"
 				+ " and l.lesson_seq = a.al_lesson_seq"
-				+ " and TO_CHAR(SYSDATE,'yyyy-mm-dd')<l.start_cdate"
+				+ " and TO_CHAR(SYSDATE,'yyyy-mm-dd')<l.start_date"
 				+ " and a.apply_ok=1"
 				+ " and u.user_id = :userId"
 				+ " order by l.lesson_seq desc", nativeQuery= true)
@@ -142,8 +142,8 @@ public interface LessonRepository extends JpaRepository<Lesson, Long> {
 				+ " from LESSON l, USERS u, APPLIED_LESSON a"
 				+ " where u.user_id = a.tutee_id"
 				+ " and l.lesson_seq = a.al_lesson_seq"
-				+ " and l.start_cdate <= TO_CHAR(SYSDATE,'yyyy-mm-dd')"
-				+ " and TO_CHAR(SYSDATE, 'yyyy-mm-dd') <=l.end_cdate"
+				+ " and l.start_date <= TO_CHAR(SYSDATE,'yyyy-mm-dd')"
+				+ " and TO_CHAR(SYSDATE, 'yyyy-mm-dd') <=l.end_date"
 				+ " and a.apply_ok=1"
 				+ " and u.user_id = :userId"
 				+ " order by l.lesson_seq desc", nativeQuery= true)
@@ -154,14 +154,14 @@ public interface LessonRepository extends JpaRepository<Lesson, Long> {
 				+ " from LESSON l, USERS u, APPLIED_LESSON a"
 				+ " where u.user_id = a.tutee_id"
 				+ " and l.lesson_seq = a.al_lesson_seq"
-				+ " and  l.end_cdate < TO_CHAR(SYSDATE, 'yyyy-mm-dd')"
+				+ " and  l.end_date < TO_CHAR(SYSDATE, 'yyyy-mm-dd')"
 				+ " and a.apply_ok=1"
 				+ " and u.user_id = :userId"
 				+ " order by l.lesson_seq desc", nativeQuery= true)
 		public List<Object[]> lastApplyLesson(@Param("userId") String userId);
 		
 		//[JW]
-		@Query(value=" SELECT l.lesson_name"
+		@Query(value=" SELECT l.lesson_name, l.lesson_seq"
 				+ " from LESSON l, USERS u, APPLIED_LESSON a"
 				+ " where u.user_id = a.tutee_id"
 				+ " and l.lesson_seq = a.al_lesson_seq"
@@ -176,11 +176,11 @@ public interface LessonRepository extends JpaRepository<Lesson, Long> {
 		
 		//[SR]메인페이지 - 신청종료일 임박순으로 list 출력
 		@Query(value = "SELECT *"
-				+ "FROM (SELECT lesson_seq, lesson_name, img_path, price "
+				+ "FROM (SELECT lesson_seq, lesson_name, lesson_img, price "
 				+ "                FROM lesson "
 				+ "                WHERE pay_lesson between 0 and 1 "
-				+ "                AND TO_DATE(end_date, 'YY-MM-DD') >= TO_DATE(sysdate, 'YY-MM-DD') "
-				+ "                ORDER BY end_date ASC) "
+				+ "                AND TO_DATE(apply_end, 'YY-MM-DD') >= TO_DATE(sysdate, 'YY-MM-DD') "
+				+ "                ORDER BY apply_end ASC) "
 				+ "WHERE rownum BETWEEN 1 AND 6 ", nativeQuery = true)
 		public List<Object[]> selectAllBydateLesson();
 		

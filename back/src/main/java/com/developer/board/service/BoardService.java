@@ -6,8 +6,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
-import javax.persistence.criteria.Expression;
-
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -52,8 +50,8 @@ public class BoardService {
 		Users writer = new Users();
 		writer.setUserId(logined);
 		board.setTitle(saveBoardDTO.getTitle());
-		board.setContent(saveBoardDTO.getContent());
-		board.setImgPath(saveBoardDTO.getImgPath());
+		board.setBoardContent(saveBoardDTO.getBoardContent());
+		board.setBoardImg(saveBoardDTO.getBoardImg());
 		board.setUsers(writer);
 		bRepository.save(board);
 
@@ -88,14 +86,14 @@ public class BoardService {
 			UsersDTO users = new UsersDTO();
 			users.setNickname(nickName);
 			dto.setUsersDTO(users);
-			dto.setPostSeq(post_seq.longValue());
+			dto.setBoardSeq(post_seq.longValue());
 			dto.setCategory((int) (category.longValue()));
 			dto.setTitle(title);
-			dto.setContent(content);
-			dto.setImgPath(imgPath);
-			dto.setCDate(cDate);
-			dto.setRecommend((int) (recommend.longValue()));
-			dto.setCnt((int) (cnt.longValue()));
+			dto.setBoardContent(content);
+			dto.setBoardImg(imgPath);
+			dto.setBoardDate(cDate);
+			dto.setLike((int) (recommend.longValue()));
+			dto.setHit((int) (cnt.longValue()));
 
 			boardList.add(dto);
 		});
@@ -119,24 +117,24 @@ public class BoardService {
 			BoardDTO.getBoardByBoardTypeDTO bDTO = new BoardDTO.getBoardByBoardTypeDTO();
 			BigDecimal post_seq = (BigDecimal) Blist.get(i)[1];
 			Long resultPost_seq = post_seq.longValue();
-			bDTO.setPostSeq(resultPost_seq);
+			bDTO.setBoardSeq(resultPost_seq);
 
 			BigDecimal Category = (BigDecimal) Blist.get(i)[2];
 			int resultCategory = Category.intValue();
 			bDTO.setCategory(resultCategory);
 
 			bDTO.setTitle((String) Blist.get(i)[3]);
-			bDTO.setContent((String) Blist.get(i)[4]);
-			bDTO.setImgPath((String) Blist.get(i)[5]);
-			bDTO.setCDate((Date) Blist.get(i)[6]);
+			bDTO.setBoardContent((String) Blist.get(i)[4]);
+			bDTO.setBoardImg((String) Blist.get(i)[5]);
+			bDTO.setBoardDate((Date) Blist.get(i)[6]);
 
 			BigDecimal Recommend = (BigDecimal) Blist.get(i)[7];
 			int resultRec = Recommend.intValue();
-			bDTO.setRecommend(resultRec);
+			bDTO.setLike(resultRec);
 
 			BigDecimal Cnt = (BigDecimal) Blist.get(i)[8];
 			int resultCnt = Cnt.intValue();
-			bDTO.setCnt(resultCnt);
+			bDTO.setHit(resultCnt);
 
 			UsersDTO.UsersNameDTO uDTO = new UsersDTO.UsersNameDTO();
 			uDTO.setNickname((String) Blist.get(i)[0]);
@@ -211,14 +209,14 @@ public class BoardService {
 			UsersDTO users = new UsersDTO();
 			users.setNickname(nickName);
 			dto.setUsersDTO(users);
-			dto.setPostSeq(post_seq.longValue());
+			dto.setBoardSeq(post_seq.longValue());
 			dto.setCategory((int) (category.longValue()));
 			dto.setTitle(title);
-			dto.setContent(content);
-			dto.setImgPath(imgPath);
-			dto.setCDate(cDate);
-			dto.setRecommend((int) (recommend.longValue()));
-			dto.setCnt((int) (cnt.longValue()));
+			dto.setBoardContent(content);
+			dto.setBoardImg(imgPath);
+			dto.setBoardDate(cDate);
+			dto.setLike((int) (recommend.longValue()));
+			dto.setHit((int) (cnt.longValue()));
 
 			boardList.add(dto);
 		});
@@ -244,22 +242,22 @@ public class BoardService {
 			BoardDTO.BoardAllSelectDTO bDTO = new BoardDTO.BoardAllSelectDTO();
 			BigDecimal post_seq = (BigDecimal) Blist.get(i)[2];
 			Long resultPost_seq = post_seq.longValue();
-			bDTO.setPostSeq(resultPost_seq);
+			bDTO.setBoardSeq(resultPost_seq);
 
 			BigDecimal Category = (BigDecimal) Blist.get(i)[3];
 			int resultCategory = Category.intValue();
 			bDTO.setCategory(resultCategory);
 
 			bDTO.setTitle((String) Blist.get(i)[4]);
-			bDTO.setContent((String) Blist.get(i)[5]);
-			bDTO.setImgPath((String) Blist.get(i)[6]);
-			bDTO.setCDate((Date) Blist.get(i)[7]);
+			bDTO.setBoardContent((String) Blist.get(i)[5]);
+			bDTO.setBoardImg((String) Blist.get(i)[6]);
+			bDTO.setBoardDate((Date) Blist.get(i)[7]);
 			BigDecimal Recommend = (BigDecimal) Blist.get(i)[8];
 			int resultRec = Recommend.intValue();
-			bDTO.setRecommend(resultRec);
+			bDTO.setLike(resultRec);
 			BigDecimal Cnt = (BigDecimal) Blist.get(i)[9];
 			int resultCnt = Cnt.intValue();
-			bDTO.setCnt(resultCnt);
+			bDTO.setHit(resultCnt);
 
 			// 11 : 댓글 아이디 ,12 : 댓글내용 , 13:댓글 작성일 14:댓글 닉네임
 			UsersDTO.UsersNameDTO uDTO = new UsersDTO.UsersNameDTO();
@@ -267,13 +265,13 @@ public class BoardService {
 			uDTO.setUserId((String) Blist.get(i)[0]);
 
 			BoardRepDTO.BoardRepSelectDTO brsDTO = new BoardRepSelectDTO();
-			brsDTO.setContent((String) Blist.get(i)[12]);
-			brsDTO.setCDate((Date) Blist.get(i)[13]);
+			brsDTO.setReplyContent((String) Blist.get(i)[12]);
+			brsDTO.setBoardRepDate((Date) Blist.get(i)[13]);
 			if (Blist.get(i)[15] != null) {
 				BigDecimal post_rep_seq = (BigDecimal) Blist.get(i)[15];
 				Long resultRep_seq = post_rep_seq.longValue();
-				brsDTO.setPostRepSeq(resultRep_seq);
-			}
+				brsDTO.setBoardReqSeq(resultRep_seq);
+				}
 
 			UsersDTO.UsersNameDTO repuserDTO = new UsersDTO.UsersNameDTO();
 			repuserDTO.setUserId((String) Blist.get(i)[11]);
@@ -302,20 +300,20 @@ public class BoardService {
 			// 각각의 값을 꺼내서 DTO에 셋팅
 			BigDecimal post_seq = (BigDecimal) obj.get(i)[1];
 			Long resultPost_seq = post_seq.longValue();
-			dto.setPostSeq(resultPost_seq);
+			dto.setBoardSeq(resultPost_seq);
 			BigDecimal Category = (BigDecimal) obj.get(i)[2];
 			int resultCategory = Category.intValue();
 			dto.setCategory(resultCategory);
 			dto.setTitle((String) obj.get(i)[3]);
-			dto.setContent((String) obj.get(i)[4]);
-			dto.setImgPath((String) obj.get(i)[5]);
-			dto.setCDate((Date) obj.get(i)[6]);
+			dto.setBoardContent((String) obj.get(i)[4]);
+			dto.setBoardImg((String) obj.get(i)[5]);
+			dto.setBoardDate((Date) obj.get(i)[6]);
 			BigDecimal Recommend = (BigDecimal) obj.get(i)[7];
 			int resultRec = Recommend.intValue();
-			dto.setRecommend(resultRec);
+			dto.setLike(resultRec);
 			BigDecimal cnt = (BigDecimal) obj.get(i)[8];
 			int resultCnt = cnt.intValue();
-			dto.setCnt(resultCnt);
+			dto.setHit(resultCnt);
 			UsersDTO.UsersNameDTO usersNameDTO = new UsersDTO.UsersNameDTO();
 			usersNameDTO.setNickname((String) obj.get(i)[0]);
 			dto.setUsersNameDTO(usersNameDTO);
@@ -339,8 +337,8 @@ public class BoardService {
 			// bEntity.setUsers(optB.get().getUsers());
 			// logger.error("값:" + hostuserDTO.toString());
 			bEntity.setTitle(editBoardDTO.getTitle());
-			bEntity.setContent(editBoardDTO.getContent());
-			bEntity.setImgPath(editBoardDTO.getImgPath());
+			bEntity.setBoardContent(editBoardDTO.getBoardContent());
+			bEntity.setBoardImg(editBoardDTO.getBoardImg());
 			bRepository.save(bEntity);
 
 		} else {
@@ -360,8 +358,8 @@ public class BoardService {
 	public void updateCnt(Long postSeq) throws ModifyException {
 		Optional<Board> optB = bRepository.findById(postSeq);
 		if (optB.isPresent()) {
-			Integer oldcnt = optB.get().getCnt();
-			optB.get().setCnt(oldcnt + 1);
+			Integer oldcnt = optB.get().getHit();
+			optB.get().setHit(oldcnt + 1);
 		} else {
 			throw new ModifyException("정상적인 수정이 되지 않았습니다.");
 		}
@@ -412,14 +410,14 @@ public class BoardService {
 			UsersDTO users = new UsersDTO();
 			users.setNickname(nickName);
 			dto.setUsersDTO(users);
-			dto.setPostSeq(post_seq.longValue());
+			dto.setBoardSeq(post_seq.longValue());
 			dto.setCategory((int) (category.longValue()));
 			dto.setTitle(btitle);
-			dto.setContent(content);
-			dto.setImgPath(imgPath);
-			dto.setCDate(cDate);
-			dto.setRecommend((int) (recommend.longValue()));
-			dto.setCnt((int) (cnt.longValue()));
+			dto.setBoardContent(content);
+			dto.setBoardImg(imgPath);
+			dto.setBoardDate(cDate);
+			dto.setLike((int) (recommend.longValue()));
+			dto.setHit((int) (cnt.longValue()));
 
 			boardList.add(dto);
 		});
@@ -446,20 +444,20 @@ public class BoardService {
 			BoardDTO.selectAllBydateBoardDTO bDto = new BoardDTO.selectAllBydateBoardDTO();
 			BigDecimal postSeq = (BigDecimal) bList.get(i)[0];
 			long convertSeq = postSeq.longValue();
-			bDto.setPostSeq(convertSeq);
+			bDto.setBoardSeq(convertSeq);
 			BigDecimal category = (BigDecimal) bList.get(i)[2];
 			int convertCate = category.intValue();
 			bDto.setCategory(convertCate);
 			bDto.setTitle((String) bList.get(i)[3]);
-			bDto.setContent((String) bList.get(i)[4]);
-			bDto.setImgPath((String) bList.get(i)[5]);
-			bDto.setCDate((Date) bList.get(i)[6]);
+			bDto.setBoardContent((String)bList.get(i)[4]);
+			bDto.setBoardImg((String) bList.get(i)[5]);
+			bDto.setBoardDate((Date) bList.get(i)[6]);
 			BigDecimal recommend = (BigDecimal) bList.get(i)[7];
 			int convertRec = recommend.intValue();
-			bDto.setRecommend(convertRec);
+			bDto.setLike(convertRec);
 			BigDecimal cnt = (BigDecimal) bList.get(i)[8];
 			int convertCnt = cnt.intValue();
-			bDto.setCnt(convertCnt);
+			bDto.setHit(convertCnt);
 
 			UsersDTO.selectAllBydateBoardDTO uDto = new UsersDTO.selectAllBydateBoardDTO();
 			uDto.setNickname((String) bList.get(i)[1]);

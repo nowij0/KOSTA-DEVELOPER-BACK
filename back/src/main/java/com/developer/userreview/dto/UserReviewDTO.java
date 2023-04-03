@@ -13,9 +13,9 @@ public class UserReviewDTO {
 	@Data
 	@NoArgsConstructor
 	public static class selectUserReview {
-		private Long applySeqRv;
-		private Integer star;
-		private String review;
+		private Long applySeq;
+		private Integer userStar;
+		private String userReview;
 		private AppliedLessonDTO appliedLessonDTO;
 	}
 
@@ -23,9 +23,9 @@ public class UserReviewDTO {
 	@Data
 	@NoArgsConstructor
 	public static class getTuteeReview {
-		private Long applySeqRv;
-		private Integer star;
-		private String review;
+		private Long applySeq;
+		private Integer userStar;
+		private String userReview;
 		private AppliedLessonDTO.selectAppliedLessonDTO appliedLessonDTO;
 	}
 
@@ -35,8 +35,8 @@ public class UserReviewDTO {
 	@DynamicUpdate
 	@NoArgsConstructor
 	public static class addReviewDTO {
-		private Long applySeqRv;
-		private Integer star;
-		private String review;
+		private Long applySeq;
+		private Integer userStar;
+		private String userReview;
 	}
 }

@@ -16,11 +16,11 @@ import lombok.NoArgsConstructor;
 public class RoomReviewDTO {
 
 	private Long resSeq;
-	private String content;
-	private Integer star;
+	private String roomContent;
+	private Integer roomStar;
 	@Temporal(TemporalType.DATE)
 	@JsonFormat(pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
-	private Date cDate;
+	private Date writeDate;
 	private ReservationDTO reservationDTO;
 
 	// ds
@@ -28,8 +28,8 @@ public class RoomReviewDTO {
 	@NoArgsConstructor
 	public static class RoomReviewInsertDTO {
 		private Long resSeq;
-		private String content;
-		private Integer star;
+		private String roomContent;
+		private Integer roomStar;
 	}
 
 	// ds
@@ -38,9 +38,9 @@ public class RoomReviewDTO {
 	public static class RoomReviewSelectAllDTO {
 		@Temporal(TemporalType.DATE)
 		@JsonFormat(pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
-		private Date cdate;
-		private Integer star;
-		private String content;
+		private Date writeDate;
+		private Integer roomStar;
+		private String roomContent;
 
 		private ReservationDTO.RoomReviewSelectAllDTO rrsaDTO;
 	}
@@ -51,9 +51,9 @@ public class RoomReviewDTO {
 	public static class selectMyRmRvDTO {
 		@Temporal(TemporalType.DATE)
 		@JsonFormat(pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
-		private Date cdate;
-		private Integer star;
-		private String content;
+		private Date writeDate;
+		private Integer roomStar;
+		private String roomContent;
 		private ReservationDTO.RoomReviewSelectMyRmRvDTO rrsaDTO;
 	}
 
@@ -63,9 +63,9 @@ public class RoomReviewDTO {
 	public static class selectMyRmRvDetailDTO {
 		@Temporal(TemporalType.DATE)
 		@JsonFormat(pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
-		private Date cdate;
-		private Integer star;
-		private String content;
+		private Date writeDate;
+		private Integer roomStar;
+		private String roomContent;
 		private ReservationDTO.RoomReviewSelectMyRmRvDetailDTO rrsaDTO;
 	}
 }

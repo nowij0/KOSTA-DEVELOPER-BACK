@@ -34,8 +34,8 @@ import com.developer.exception.FindException;
 import com.developer.exception.RemoveException;
 import com.developer.favoriteslesson.dto.FavoritesLessonDTO;
 import com.developer.favoriteslesson.service.FavoritesLessonService;
-import com.developer.favoritesstudyroom.dto.FavoritesStudyroomDTO;
-import com.developer.favoritesstudyroom.service.FavoritesStudyroomService;
+import com.developer.favoritesstudycafe.dto.FavoritesStudycafeDTO;
+import com.developer.favoritesstudycafe.service.FavoritesStudycafeService;
 import com.developer.lesson.dto.LessonDTO;
 import com.developer.lesson.service.LessonService;
 import com.developer.lessonreview.dto.LessonReviewDTO;
@@ -48,7 +48,6 @@ import com.developer.roomreview.service.RoomReviewService;
 import com.developer.userreview.dto.UserReviewDTO;
 import com.developer.userreview.service.UserReviewService;
 import com.developer.users.dto.UsersDTO;
-import com.developer.users.entity.Users;
 import com.developer.users.service.UsersService;
 import com.developer.util.Attach;
 
@@ -64,7 +63,7 @@ public class MyPageController {
 	private final LessonService lService;
 	private final UserReviewService urService;
 	private final UsersService uService;
-	private final FavoritesStudyroomService fsService;;
+	private final FavoritesStudycafeService fsService;;
 	private final FavoritesLessonService flService;
 	private final LessonReviewService lrservice;
 	private final ReservationService rService;
@@ -293,7 +292,7 @@ public class MyPageController {
 			throws AddException, FindException {
 
 		String userId = (String) session.getAttribute("logined");
-		String saveDirectory = "C:\\dev\\lesson"; // 각자 주소로!
+		String saveDirectory = "/Users/moonone/Desktop/KOSTA/img/lesson"; // 각자 주소로!
 		File saveDirFile = new File(saveDirectory);
 
 		String fileName;
@@ -324,7 +323,7 @@ public class MyPageController {
 
 				Thumbnailator.createThumbnail(thumbnailsS, thumbnailOs, width, height);
 
-				dto.setImgPath(fileName);
+				dto.setLessonImg(fileName);
 				lService.addLessonDTO(dto, userId);
 				return new ResponseEntity<>(HttpStatus.OK);
 			} catch (IOException e) {
@@ -482,7 +481,7 @@ public class MyPageController {
 
 		String userId = (String) session.getAttribute("logined");
 
-		List<FavoritesStudyroomDTO.favStudyroomListDTO> list = fsService.listFavStudyroom(userId);
+		List<FavoritesStudycafeDTO.favStudycafeListDTO> list = fsService.listFavStudyroom(userId);
 		return new ResponseEntity<>(list, HttpStatus.OK);
 	}
 

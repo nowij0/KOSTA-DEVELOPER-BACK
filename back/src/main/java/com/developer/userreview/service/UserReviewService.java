@@ -61,11 +61,11 @@ public class UserReviewService {
 			aDTO.setUsersDTO(uDTO);
 			rDTO.setAppliedLessonDTO(aDTO);
 
-			rDTO.setReview((String) Rlist.get(i)[1]);
+			rDTO.setUserReview((String) Rlist.get(i)[1]);
 
 			BigDecimal change = (BigDecimal) Rlist.get(i)[2];
 			Integer star = change.intValue();
-			rDTO.setStar(star);
+			rDTO.setUserStar(star);
 
 			dto.add(rDTO);
 		}
@@ -85,10 +85,10 @@ public class UserReviewService {
 		Optional<AppliedLesson> optA = alRepository.findById(applySeqRv);
 		AppliedLesson a = optA.get();
 		UserReview userReview = new UserReview();
-		userReview.setReview(addReviewDTO.getReview());
-		userReview.setStar(addReviewDTO.getStar());
-		userReview.setApplySeqRv(addReviewDTO.getApplySeqRv());
-		userReview.setAlLesson(a);
+		userReview.setUserReview(addReviewDTO.getUserReview());
+		userReview.setUserStar(addReviewDTO.getUserStar());
+		userReview.setApplySeq(addReviewDTO.getApplySeq());
+		userReview.setAppliedLesson(a);
 		rRepository.save(userReview);
 	}
 }

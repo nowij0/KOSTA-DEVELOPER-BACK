@@ -1,6 +1,6 @@
 package com.developer.boardrep.entity;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -20,43 +20,42 @@ import org.hibernate.annotations.DynamicUpdate;
 
 import com.developer.board.entity.Board;
 import com.developer.users.entity.Users;
-import com.fasterxml.jackson.annotation.JsonFormat;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Getter
-@Setter
+@Getter @Setter
 @NoArgsConstructor
+
 @Entity
 @Table(name = "board_rep")
+@DynamicInsert @DynamicUpdate
 
-@DynamicInsert
-@DynamicUpdate
-@SequenceGenerator(name = "POST_REP_SEQ_GENERATOR", // 사용할 sequence 이름
-		sequenceName = "post_rep_seq", // 실제 데이터s베이스 sequence 이름
+@SequenceGenerator(name = "BOARD_REP_SEQ_GENERATOR",
+		sequenceName = "board_rep_seq",
 		initialValue = 1, allocationSize = 1)
-
 public class BoardRep {
 
 	@Id
-	@Column(name = "post_rep_seq")
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "POST_REP_SEQ_GENERATOR" // 위의 sequence 이름
-	)
-	private Long postRepSeq;
+	@Column(name = "board_rep_seq")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, 
+									generator = "BOARD_REP_SEQ_GENERATOR" 
+								)
+	private Long boardReqSeq;
 
 	@NotNull
-	@Column(name = "content")
-	private String content;
+	@Column(name = "reply_content")
+	private String replyContent;
 
-	@Column(name = "cdate")
+	@Column(name = "board_rep_date")
 	@ColumnDefault(value = "SYSDATE")
-	@JsonFormat(pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
-	private Date cDate;
+	private LocalDateTime boardRepDate;
 
+	
+	
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "post_seq")
+	@JoinColumn(name = "board_seq")
 	private Board board;
 
 	@ManyToOne

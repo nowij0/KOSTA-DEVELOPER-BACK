@@ -1,6 +1,5 @@
 package com.developer.appliedlesson.entity;
 
-
 import java.util.Date;
 
 import javax.persistence.CascadeType;
@@ -24,7 +23,6 @@ import com.developer.lesson.entity.Lesson;
 import com.developer.lessonreview.entity.LessonReview;
 import com.developer.userreview.entity.UserReview;
 import com.developer.users.entity.Users;
-import com.fasterxml.jackson.annotation.JsonFormat;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -33,10 +31,9 @@ import lombok.Setter;
 @Entity
 @Table(name="APPLIED_LESSON")
 @DynamicInsert @DynamicUpdate
-
 @Getter @Setter
-@JsonFormat(pattern = "yy-MM-dd hh:mm:ss", timezone = "Asia/Seoul")
 @NoArgsConstructor 
+
 @SequenceGenerator(
       name ="applySeq", 
       sequenceName ="apply_seq", 
@@ -52,8 +49,8 @@ public class AppliedLesson {
 	private Long applySeq;
 	
 	@ColumnDefault(value="SYSDATE")
-	@Column(name = "cdate")
-	private Date cdate;
+	@Column(name = "apply_date")
+	private Date applyDate;
 	
 	@ColumnDefault(value="0")
 	@Column(name="apply_ok")
@@ -69,15 +66,16 @@ public class AppliedLesson {
 	@JoinColumn(name="al_lesson_seq")
 	private Lesson lesson;
 	
-	@OneToOne(mappedBy = "appliedLesson",
-  				cascade = CascadeType.MERGE)	
-	private LessonReview lessonReview;
-
 	@ManyToOne
 	@JoinColumn(name = "al_user_id")
 	private Users users;
 	
-	@OneToOne(mappedBy = "alLesson")
+	@OneToOne(mappedBy = "appliedLesson",
+			cascade = CascadeType.MERGE)	
+	private LessonReview lessonReview;
+	
+	@OneToOne(mappedBy = "appliedLesson",
+			cascade = CascadeType.MERGE)
 	private UserReview userReview;
 
 }

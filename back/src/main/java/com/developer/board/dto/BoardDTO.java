@@ -2,10 +2,8 @@ package com.developer.board.dto;
 
 import java.util.Date;
 
-import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
-import org.springframework.data.domain.Page;
 
 import com.developer.boardrep.dto.BoardRepDTO;
 import com.developer.recommend.dto.RecommendDTO;
@@ -24,15 +22,15 @@ import lombok.NoArgsConstructor;
 @JsonFormat(pattern = "yy-MM-dd", timezone = "Asia/Seoul")
 public class BoardDTO {
 	// 근형
-	private Long postSeq;
+	private Long boardSeq;
 	private Integer category;
 	private String title;
-	private String content;
-	private String imgPath;
+	private String boardContent;
+	private String boardImg;
 	@JsonFormat(pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
-	private Date cDate;
-	private Integer recommend;
-	private Integer cnt;
+	private Date boardDate;
+	private Integer like;
+	private Integer hit;
 
 	private BoardRepDTO boardRepDTO;
 	private UsersDTO usersDTO;
@@ -41,15 +39,15 @@ public class BoardDTO {
 	@Data
 	@NoArgsConstructor
 	public static class BoardAllSelectDTO {
-		private Long postSeq;
+		private Long boardSeq;
 		private Integer category;
 		private String title;
-		private String content;
-		private String imgPath;
+		private String boardContent;
+		private String boardImg;
 		@JsonFormat(pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
-		private Date cDate;
-		private Integer recommend;
-		private Integer cnt;
+		private Date boardDate;
+		private Integer like;
+		private Integer hit;
 
 		// private BoardRepDTO boardRepDTO;
 		private BoardRepDTO.BoardRepSelectDTO boardRepSelectDTO;
@@ -61,15 +59,15 @@ public class BoardDTO {
 	@NoArgsConstructor
 	@AllArgsConstructor
 	public static class selectAllBydateBoardDTO {
-		private Long postSeq;
+		private Long boardSeq;
 		private Integer category;
 		private String title;
-		private String content;
-		private String imgPath;
+		private String boardContent;
+		private String boardImg;
 		@JsonFormat(pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
-		private Date cDate;
-		private Integer recommend;
-		private Integer cnt;
+		private Date boardDate;
+		private Integer like;
+		private Integer hit;
 		private UsersDTO.selectAllBydateBoardDTO usersDTO;
 	}
 
@@ -78,15 +76,15 @@ public class BoardDTO {
 	@NoArgsConstructor
 	@AllArgsConstructor
 	public static class getBoardByBoardTypeDTO {
-		private Long postSeq;
+		private Long boardSeq;
 		private Integer category;
 		private String title;
-		private String content;
-		private String imgPath;
+		private String boardContent;
+		private String boardImg;
 		@JsonFormat(pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
-		private Date cDate;
-		private Integer recommend;
-		private Integer cnt;
+		private Date boardDate;
+		private Integer like;
+		private Integer hit;
 		private UsersDTO.UsersNameDTO usersNameDTO;
 	}
 
@@ -94,16 +92,16 @@ public class BoardDTO {
 	@Data
 	@NoArgsConstructor
 	public static class saveBoardDTO {
-		private Long postSeq;
+		private Long boardSeq;
 		private Integer category;
 		private String title;
-		private String content;
-		private String imgPath;
+		private String boardContent;
+		private String boardImg;
 		private UsersDTO.UsersNameDTO usersNameDTO;
 		@JsonFormat(pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
-		private Date cDate;
-		private Integer recommend;
-		private Integer cnt;
+		private Date boardDate;
+		private Integer like;
+		private Integer hit;
 		private UsersDTO.selectAllBydateBoardDTO usersDTO;
 	}
 
@@ -112,11 +110,11 @@ public class BoardDTO {
 	@NoArgsConstructor
 	public static class editBoardDTO {
 		private String title;
-		private String content;
-		private String imgPath;
+		private String boardContent;
+		private String boardImg;
 		@JsonFormat(pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
 //			@ColumnDefault(value = "SYSDATE")
-		private Date cDate;
+		private Date boardDate;
 	}
 
 //	@Data

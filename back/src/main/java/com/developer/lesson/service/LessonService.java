@@ -384,12 +384,13 @@ public class LessonService {
 			flDTO.setTuteeId(optL.get().getFlList().get(i).getUsers().getUserId());
 			flList.add(flDTO);
 		}
+		
 		List<AppliedLessonDTO.alAddRequestDTO> alList = new ArrayList<>();
 		for (int i = 0; i < optL.get().getAlList().size(); i++) {
 			AppliedLessonDTO.alAddRequestDTO alDTO = new AppliedLessonDTO.alAddRequestDTO();
 			alDTO.setApplySeq(optL.get().getAlList().get(i).getApplySeq());
 			alDTO.setApplyOk(optL.get().getAlList().get(i).getApplyOk());
-			alDTO.setCdate(optL.get().getAlList().get(i).getCdate());
+			alDTO.setApplyDate(optL.get().getAlList().get(i).getApplyDate());
 			alDTO.setTuteeId(optL.get().getAlList().get(i).getTuteeId());
 			alList.add(alDTO);
 		}
@@ -437,32 +438,25 @@ public class LessonService {
 
 		for (int i = 0; i < lList.size(); i++) {
 
-			LessonDTO.selectAllReviewDTO lDto = new LessonDTO.selectAllReviewDTO();
-			lDto.setLessonName((String) lList.get(i)[4]);
+			LessonDTO.selectAllReviewDTO lDTO = new LessonDTO.selectAllReviewDTO();
+			lDTO.setLessonName((String) lList.get(i)[4]); 
 
-			TutorDTO.tDTO tDto = new TutorDTO.tDTO();
-			UsersDTO.uNameDTO uDto = new UsersDTO.uNameDTO();
-			uDto.setName((String) lList.get(i)[5]);
-			tDto.setUDTO(uDto);
-
-			List<AppliedLessonDTO.alLessonDTO> alList = new ArrayList<>();
-			AppliedLessonDTO.alLessonDTO alDto = new AppliedLessonDTO.alLessonDTO();
+			List<AppliedLessonDTO.lessonAlDTO> alList = new ArrayList<>();
+			AppliedLessonDTO.lessonAlDTO alDto = new AppliedLessonDTO.lessonAlDTO();
 			alDto.setTuteeId((String) lList.get(i)[3]);
 
-			LessonReviewDTO.lrALDTO rDto = new LessonReviewDTO.lrALDTO();
-			BigDecimal star = (BigDecimal) lList.get(i)[2];
-			Integer result = star.intValue();
-			rDto.setStar(result);
-			rDto.setReview((String) lList.get(i)[1]);
-			rDto.setCDate((Date) lList.get(i)[0]);
+			LessonReviewDTO.lrAlDTO lrDTO = new LessonReviewDTO.lrAlDTO();
+			lrDTO.setLessonStar(((BigDecimal) lList.get(i)[2]).intValue());
+			lrDTO.setLessonReview((String) lList.get(i)[1]);			
+			lrDTO.setLessonReviewDate((Date) lList.get(i)[0]);
 
-			alDto.setLrdto(rDto);
+			alDto.setLrdto(lrDTO);
 			alList.add(alDto);
 
-			lDto.setName(tDto.getUDTO().getName());
-			lDto.setAlDTO(alList);
+			lDTO.setTutorName((String) lList.get(i)[5]);
+			lDTO.setAlDTO(alList);
 
-			dto.add(lDto);
+			dto.add(lDTO);
 		}
 		return dto;
 	}
@@ -501,14 +495,14 @@ public class LessonService {
 		for (int i = 0; i < list.size(); i++) {
 			LessonDTO.searchLessonDTO dto = new LessonDTO.searchLessonDTO();
 			dto.setLessonSeq(((BigDecimal) list.get(i)[0]).longValue());
-			dto.setLessonName((String) list.get(i)[2]);
+			dto.setApplyEndDate((Date) list.get(i)[1]);
+			dto.setApplyStartDate((Date) list.get(i)[2]);
 			dto.setCategory(((BigDecimal) list.get(i)[3]).intValue());
-			dto.setApplyStartDate((Date) list.get(i)[10]);
-			dto.setApplyEndDate((Date) list.get(i)[11]);
-			dto.setStartDate((Date) list.get(i)[7]);
-			dto.setEndDate((Date) list.get(i)[8]);
+			dto.setEndDate((Date) list.get(i)[5]);
 			dto.setImgPath((String) list.get(i)[6]);
-			dto.setPrice(((BigDecimal) list.get(i)[9]).intValue());
+			dto.setLessonName((String) list.get(i)[7]);
+			dto.setPrice(((BigDecimal) list.get(i)[11]).intValue());			
+			dto.setStartDate((Date) list.get(i)[12]);
 			lesson.add(dto);
 		}
 		return lesson;
@@ -549,6 +543,7 @@ public class LessonService {
 			AppliedLessonDTO.selectAppliedLessonDTO aDTO = new AppliedLessonDTO.selectAppliedLessonDTO();
 			uDTO.setUserId((String) userId);
 			lDTO.setLessonName((String) Llist.get(i)[0]);
+			lDTO.setLessonSeq(((BigDecimal) Llist.get(i)[1]).longValue());
 			aDTO.setUsersDTO(uDTO);
 			lDTO.setAlDTO(aDTO);
 			dto.add(lDTO);

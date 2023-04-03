@@ -29,7 +29,7 @@ public interface LessonReviewRepository extends CrudRepository<LessonReview, Lon
 	public Integer cntLReview(@Param("tutorId") String tutorId);
 	
 	//[JW]
-	@Query(value = "SELECT lr.review, lr.star, u.name, l.lesson_name\n"
+	@Query(value = "SELECT lr.lesson_review, lr.lesson_star, u.name, l.lesson_name\n"
 			+ "			FROM lesson_review lr \n"
 			+ "			LEFT OUTER JOIN applied_lesson al \n"
 			+ "			ON lr.apply_seq = al.apply_seq \n"
@@ -42,19 +42,23 @@ public interface LessonReviewRepository extends CrudRepository<LessonReview, Lon
 	public List<Object[]> listLRList(@Param("tuteeId") String tuteeId);
 	
 	//[JW]
-	@Query(value = "SELECT al.apply_seq, l.lesson_name\n"
+	@Query(value = "SELECT al.apply_seq, l.lesson_name, al.apply_ok, l.end_date\n"
 			+ "FROM applied_lesson al\n"
 			+ "INNER JOIN lesson l\n"
 			+ "ON al.al_lesson_seq = l.lesson_seq\n"
 			+ "WHERE al.al_user_id = :userId\n"
+			+ " AND l.end_date <= SYSDATE\n"
+			+ "AND al.apply_ok = 1"
 			+ "MINUS\n"
-			+ "SELECT al.apply_seq, l.lesson_name\n"
+			+ "SELECT al.apply_seq, l.lesson_name, al.apply_ok, l.end_date\n"
 			+ "FROM lesson_review lr\n"
 			+ "INNER JOIN applied_lesson al\n"
 			+ "ON lr.apply_seq = al.apply_seq\n"
 			+ "INNER JOIN lesson l\n"
 			+ "ON al.al_lesson_seq = l.lesson_seq\n"
-			+ "where al.al_user_id = :userId",
+			+ "where al.al_user_id = :userId"
+			+ " AND l.end_date <= SYSDATE\n"
+			+ "AND al.apply_ok = 1",
 					nativeQuery = true)
 	public List<Object[]> noWriteLReview(@Param("userId") String userId);
 

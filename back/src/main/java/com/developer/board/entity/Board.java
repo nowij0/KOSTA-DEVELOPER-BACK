@@ -30,24 +30,23 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Setter
-@Getter
+@Setter @Getter
 @NoArgsConstructor
 
 @Entity
-@DynamicInsert
-@DynamicUpdate
 @Table(name = "Board")
-@SequenceGenerator(name = "POST_SEQ_GENERATOR", // 사용할 sequence 이름
-		sequenceName = "post_seq", // 실제 데이터베이스 sequence 이름
-		initialValue = 1, allocationSize = 1)
+@DynamicInsert @DynamicUpdate
 
+@SequenceGenerator(name = "BOARD_SEQ_GENERATOR", 
+		sequenceName = "board_seq",
+		initialValue = 1, allocationSize = 1)
 public class Board {
 	@Id
-	@Column
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "POST_SEQ_GENERATOR" // 위의 sequence 이름
+	@Column(name="board_seq")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE,
+									generator = "BOARD_SEQ_GENERATOR" 
 	)
-	private Long postSeq;
+	private Long boardSeq;
 
 	@Column(name = "category")
 	@ColumnDefault(value = "0")
@@ -58,24 +57,23 @@ public class Board {
 	private String title;
 
 	@NotNull
-	@Column(name = "content")
-	private String content;
+	@Column(name = "board_content")
+	private String boardContent;
 
-	@Column(name = "img_path")
-	private String imgPath;
+	@Column(name = "board_img")
+	private String boardImg;
 
-	@JsonFormat(pattern = "yy-MM-dd", timezone = "Asia/Seoul")
-	@Column(name = "c_date")
+	@Column(name = "board_date")
 	@ColumnDefault(value = "SYSDATE")
-	private Date cDate;
+	private Date boardDate;
 
-	@Column(name = "recommend")
+	@Column(name = "recommend_cnt")
 	@ColumnDefault(value = "0")
-	private Integer recommend;
+	private Integer recommendCnt;
 
-	@Column(name = "cnt")
+	@Column(name = "hit")
 	@ColumnDefault(value = "0")
-	private Integer cnt;
+	private Integer hit;
 
 	
 	
@@ -91,27 +89,30 @@ public class Board {
 	@JoinColumn(name = "user_id", nullable = false)
 	private Users users;
 
-	public Board(Long postSeq, Integer category, String title, String content, String imgPath, Date cDate,
-			Integer recommend, Integer cnt) {
-		this.postSeq = postSeq;
+	
+	public Board(Long boardSeq, Integer category, String title, String boardContent, String boardImg,
+			Date boardDate, Integer recommendCnt, Integer hit) {
+		super();
+		this.boardSeq = boardSeq;
 		this.category = category;
 		this.title = title;
-		this.content = content;
-		this.imgPath = imgPath;
-		this.cDate = cDate;
-		this.recommend = recommend;
-		this.cnt = cnt;
+		this.boardContent = boardContent;
+		this.boardImg = boardImg;
+		this.boardDate = boardDate;
+		this.recommendCnt = recommendCnt;
+		this.hit = hit;
 	}
 
 	@JsonFormat(pattern = "yy-MM-dd", timezone = "Asia/Seoul")
-	public void update(String title, String content, String imgPath, Date cDate) {
+	public void update(String title, String boardContent, String boardImg, Date boardDate) {
 		this.title = title;
-		this.content = content;
-		this.imgPath = imgPath;
-		this.cDate = cDate;
+		this.boardContent = boardContent;
+		this.boardImg = boardImg;
+		this.boardDate = boardDate;
 	}
 
-	public void updateCnt(Integer cnt) {
-		this.cnt = cnt;
+	public void updateHit(Integer hit) {
+		this.hit = hit;
 	}
+
 }

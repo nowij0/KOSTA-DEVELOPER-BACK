@@ -33,10 +33,11 @@ import lombok.Setter;
 
 @Entity
 @Table(name="orders")
+
 @DynamicInsert @DynamicUpdate
 @Getter @Setter
 @NoArgsConstructor
-@JsonFormat(timezone = "Asia/Seoul", pattern ="yyyy-MM-dd")
+
 @JsonAutoDetect
 @SequenceGenerator(
 		name ="orderSeq", 

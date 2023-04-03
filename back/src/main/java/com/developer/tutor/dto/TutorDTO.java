@@ -39,7 +39,7 @@ public class TutorDTO {
 	public static class selectDetailDTO {
 		private String tutorId;
 		private String info;
-		private String imgPath;
+		private String tutorImg;
 		private Double starAvg;
 		private Integer applyOk;
 	}
@@ -57,12 +57,12 @@ public class TutorDTO {
 		private UsersDTO udto;
 	}
 
-	// [JW]
+	// [JW] 튜터 등록 및 수정 
 	@Data
 	@NoArgsConstructor
 	public static class saveTutorDTO {
 		private String info;
-		private String imgPath;
+		private String tutorImg;
 		private Double starAvg;
 		private Integer applyOk;
 	}
@@ -78,14 +78,14 @@ public class TutorDTO {
 		private Users users;
 	}
 
-	// [JW]
+	// [JW] 튜터가 생성한 클래스 목록 + 튜터 정보
 	@Data
 	@NoArgsConstructor
 	public static class selectTutorDetailDTO {
 		private String info;
-		private String imgPath;
+		private String tutorImg;
 		private Double starAvg;
-		private String name;
+		private String tutorName;
 
 		private List<LessonDTO.onlyLessonDTO> lesson;
 	}

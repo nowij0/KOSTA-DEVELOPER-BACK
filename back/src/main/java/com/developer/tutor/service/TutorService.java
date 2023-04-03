@@ -46,7 +46,7 @@ public class TutorService {
 		Tutor tEntity = new Tutor();
 
 		tEntity.setTutorId(logined);
-		tEntity.setImgPath(tDTO.getImgPath());
+		tEntity.setTutorImg(tDTO.getTutorImg());
 		tEntity.setInfo(tDTO.getInfo());
 		tEntity.setUsers(u.get());
 		if (!t.isPresent()) {
@@ -73,22 +73,16 @@ public class TutorService {
 
 		List<Object[]> list = tRepository.selectTutorDetail(tutorId);
 
+		Optional<Tutor> t = tRepository.findById(tutorId);
+		tDTO.setInfo(t.get().getInfo());
+		tDTO.setTutorImg(t.get().getTutorImg());
+		tDTO.setStarAvg(t.get().getStarAvg());
+		tDTO.setTutorName(t.get().getUsers().getName());
+		
 		if (list.size() == 0) {
-			Optional<Tutor> t = tRepository.findById(tutorId);
-			tDTO.setInfo(t.get().getInfo());
-			tDTO.setImgPath(t.get().getImgPath());
-			tDTO.setStarAvg(t.get().getStarAvg());
-			tDTO.setName(t.get().getUsers().getName());
 			tDTO.setLesson(null);
 		} else {
-			Optional<Users> u = uRepository.findById(tutorId);
-
 			List<LessonDTO.onlyLessonDTO> lResult = new ArrayList<>();
-			tDTO.setInfo((String) list.get(0)[12]);
-			tDTO.setImgPath((String) list.get(0)[13]);
-			tDTO.setStarAvg(((BigDecimal) list.get(0)[14]).doubleValue());
-			tDTO.setName(u.get().getName());
-
 			for (int i = 0; i < list.size(); i++) {
 				LessonDTO.onlyLessonDTO lDTO = new LessonDTO.onlyLessonDTO();
 				lDTO.setLessonSeq(((BigDecimal) list.get(i)[0]).longValue());
@@ -96,12 +90,12 @@ public class TutorService {
 				lDTO.setCategory(((BigDecimal) list.get(i)[2]).intValue());
 				lDTO.setContent((String) list.get(i)[3]);
 				lDTO.setPeople(((BigDecimal) list.get(i)[4]).intValue());
-				lDTO.setImgPath((String) list.get(i)[5]);
-				lDTO.setStartCdate((Date) (list.get(i)[6]));
-				lDTO.setEndCdate(((Date) list.get(i)[7]));
+				lDTO.setLessonImg((String) list.get(i)[5]);
+				lDTO.setStart((Date) (list.get(i)[6]));
+				lDTO.setEnd(((Date) list.get(i)[7]));
 				lDTO.setPrice(((BigDecimal) list.get(i)[8]).intValue());
-				lDTO.setStartDate(((Date) list.get(i)[9]));
-				lDTO.setEndDate(((Date) list.get(i)[10]));
+				lDTO.setApplyStart(((Date) list.get(i)[9]));	
+				lDTO.setApplyEnd((Date) list.get(i)[10]);
 				lDTO.setLocation((String) list.get(i)[11]);
 				lDTO.setPayLesson(((BigDecimal) list.get(i)[16]).intValue());
 

@@ -94,7 +94,7 @@ public class BoardController {
 
 				Thumbnailator.createThumbnail(thumbnailIS, thumbnailOS, width, height);
 				logger.info("파일업로드 성공");
-				saveBoardDTO.setImgPath(fileName);
+				saveBoardDTO.setBoardImg(fileName);
 
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -201,7 +201,7 @@ public class BoardController {
 
 			Optional<Board> b = bRepository.findById(postSeq);
 
-			String oldFileName = b.get().getImgPath();
+			String oldFileName = b.get().getBoardImg();
 			if(!fOrigin.equals(oldFileName)) { //첨부된 파일이 기존파일이다
 				
 				//기존파일이 있는경우에만 실행
@@ -234,14 +234,14 @@ public class BoardController {
 					InputStream thumbnailIS = f.getInputStream();
 	
 					Thumbnailator.createThumbnail(thumbnailIS, thumbnailOS, width, height);
-					String oldthumbFileName = "t_" + b.get().getImgPath();
+					String oldthumbFileName = "t_" + b.get().getBoardImg();
 					;
 					File oldthumbFile = new File(saveDirFile, oldthumbFileName);
 	
 					if (oldthumbFile.exists()) {
 						oldthumbFile.delete();
 					}
-					editBoardDTO.setImgPath(fName);
+					editBoardDTO.setBoardImg(fName);
 					
 	
 				} catch (IOException e) {

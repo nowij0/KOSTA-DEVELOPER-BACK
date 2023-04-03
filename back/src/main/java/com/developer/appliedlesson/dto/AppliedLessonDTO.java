@@ -91,9 +91,9 @@ public class AppliedLessonDTO {
 	// [JW]
 	@Data
 	@NoArgsConstructor
-	public static class alLessonDTO {
+	public static class lessonAlDTO {
 		private String tuteeId;
-		private LessonReviewDTO.lrALDTO lrdto;
+		private LessonReviewDTO.lrAlDTO lrdto;
 	}
 
 	// [JW]
@@ -102,7 +102,7 @@ public class AppliedLessonDTO {
 	public static class alAddRequestDTO {
 		private Long applySeq;
 		@JsonFormat(pattern = "yyyy-MM-dd")
-		private Date cdate;
+		private Date applyDate;
 		private Integer applyOk;
 		private String tuteeId;
 	}

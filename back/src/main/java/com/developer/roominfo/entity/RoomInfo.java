@@ -19,21 +19,19 @@ import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
 import com.developer.reservation.entity.Reservation;
-import com.developer.studyroom.entity.Studyroom;
+import com.developer.studycafe.entity.Studycafe;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Setter
-@Getter
+@Setter @Getter
 @NoArgsConstructor
 
 @Entity
 @Table(name = "room_info")
-@DynamicInsert
-@DynamicUpdate
 
+@DynamicInsert @DynamicUpdate
 @SequenceGenerator(name = "ROOM_SEQ_GENERATOR", // 사용할 sequence 이름
 		sequenceName = "ROOM_SEQ", // 실제 데이터베이스 sequence 이름
 		initialValue = 1, allocationSize = 1)
@@ -46,16 +44,16 @@ public class RoomInfo {
 	private Long roomSeq;
 
 	@NotNull
-	@Column(name = "name")
-	private String name;
+	@Column(name = "room_name")
+	private String roomName;
 
 	@NotNull
 	@Column(name = "info")
 	private String info;
 
 	@NotNull
-	@Column(name = "img_path")
-	private String imgPath;
+	@Column(name = "room_img")
+	private String roomImg;
 
 	@NotNull
 	@Column(name = "person")
@@ -65,16 +63,16 @@ public class RoomInfo {
 	@Column(name = "price")
 	private Integer price;
 
-	@Column(name = "status")
+	@Column(name = "room_status")
 	@ColumnDefault(value = "0") // 0: 활성화, 1: 비활성화(삭제)
-	private Integer status;
+	private Integer roomStatus;
 	
 	
 	
 
 	@ManyToOne // (cascade= {CascadeType.MERGE})
-	@JoinColumn(name = "sr_seq", nullable = false)
-	private Studyroom studyroom;
+	@JoinColumn(name = "cafe_seq", nullable = false)
+	private Studycafe studycafe;
 
 	@OneToMany(mappedBy = "roominfo")
 	private List<Reservation> reservation;

@@ -91,7 +91,7 @@ public class LessonController {
 
 				Thumbnailator.createThumbnail(thumbnailsS, thumbnailOs, width, height);
 
-				dto.setImgPath(fileName);
+				dto.setLessonImg(fileName);
 				lservice.addLessonDTO(dto, userId);
 				return new ResponseEntity<>(HttpStatus.OK);
 			} catch (IOException e) {
@@ -116,6 +116,7 @@ public class LessonController {
 		return new ResponseEntity<>(list, HttpStatus.OK);
 	}
 
+	
 	/**
 	 * 선택한 클래스에 대한 상세 정보
 	 * 
@@ -125,20 +126,20 @@ public class LessonController {
 	 * @throws FindException
 	 */
 	@GetMapping(value = { "detail/{lessonSeq}" }, produces = MediaType.APPLICATION_PROBLEM_JSON_VALUE)
-	public ResponseEntity<LessonDTO.lessonDetailDTO> detail(@PathVariable Long lessonSeq) throws FindException {
+	public ResponseEntity<?> detail(@PathVariable Long lessonSeq) throws FindException {
+		
 		LessonDTO.lessonDetailDTO result = new lessonDetailDTO();
 
-		selectDetailDTO lessonDto = lservice.selectDetail(lessonSeq);
-
-		Integer cnt = lrservice.cntReview(lessonDto.getTDTO().getTutorId());
+		selectDetailDTO lessonDTO = lservice.selectDetail(lessonSeq);
+		Integer cnt = lrservice.cntReview(lessonDTO.getTDTO().getTutorId());
 		result.setCnt(cnt);
-
-		result.setLessonDto(lessonDto);
-		return new ResponseEntity<LessonDTO.lessonDetailDTO>(result, HttpStatus.OK);
+		result.setLessonDTO(lessonDTO);
+		
+		return new ResponseEntity<>(result, HttpStatus.OK);
 	}
 
 	/**
-	 * 수업 이름 검색
+	 * 수업 이름 검색 [다시 작업***************]
 	 * 
 	 * @author moonone
 	 * @param searchKeyword 검색할 단어
@@ -173,12 +174,12 @@ public class LessonController {
 	 * @throws AddException
 	 * @throws FindException
 	 */
-	@GetMapping(value = "apply/{lessonSeq}")
+	@GetMapping(value = "apply/{lessonSeq}", produces = MediaType.APPLICATION_PROBLEM_JSON_VALUE)
 	public ResponseEntity<?> applyLesson(HttpSession session, @PathVariable Long lessonSeq)
 			throws AddException, FindException {
 		String logined = (String) session.getAttribute("logined");
 		alService.applyLesson(lessonSeq, logined);
-		return new ResponseEntity<>(HttpStatus.OK);
+		return new ResponseEntity<>("수업이 신청되었습니다.", HttpStatus.OK);
 	}
 
 	/**
@@ -195,7 +196,7 @@ public class LessonController {
 		String userId = (String) session.getAttribute("logined");
 
 		flService.addFavLesson(lessonSeq, userId);
-		return new ResponseEntity<>(HttpStatus.OK);
+		return new ResponseEntity<>("해당 수업이 즐겨찾기에 추가되었습니다.", HttpStatus.OK);
 
 	}
 
@@ -206,9 +207,9 @@ public class LessonController {
 	 * @param favLesSeq 수업즐겨찾기SEQ
 	 * @throws RemoveException
 	 */
-	@DeleteMapping(value = "favoriteslesson/{favLesSeq}")
+	@DeleteMapping(value = "favoriteslesson/{favLesSeq}", produces = MediaType.APPLICATION_PROBLEM_JSON_VALUE)
 	public ResponseEntity<?> del(@PathVariable Long favLesSeq) throws RemoveException, FindException {
 		flService.delFavLesson(favLesSeq);
-		return new ResponseEntity<>("즐겨찾기 삭제됨", HttpStatus.OK);
+		return new ResponseEntity<>("해당 수업이 즐겨찾기에서 삭제되었습니다.", HttpStatus.OK);
 	}
 }

@@ -112,7 +112,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import com.developer.hostuser.entity.HostUser;
+import com.developer.hostuser.entity.Host;
 import com.developer.hostuser.repository.HostUserRepository;
 
 @SpringBootTest
@@ -120,14 +120,14 @@ class HostUserRepositoryTest {
 	private Logger logger = LoggerFactory.getLogger(getClass());
 
 	@Autowired
-	private HostUserRepository hur;
+	private HostRepository hur;
 
 	@Test
 	@DisplayName("hostUser insert() 테스트")
 	void testSave() {
 
 		for (int i = 1; i <= 5; i++) {
-			HostUser h = new HostUser();
+			Host h = new Host();
 			h.setHostId("아이디" + i);
 			h.setPwd("114");
 			h.setNum("211-21-111");
@@ -142,8 +142,8 @@ class HostUserRepositoryTest {
 	@DisplayName("hostUser findById() 테스트")
 	void testfindById() {
 
-		HostUser h = new HostUser();
-		Optional<HostUser> optA = hur.findById("아이디2");
+		Host h = new Host();
+		Optional<Host> optA = hur.findById("아이디2");
 		assertTrue(optA.isPresent());
 		String expectedId = "아이디2";
 		assertEquals(expectedId, optA.get().getHostId());
@@ -155,8 +155,8 @@ class HostUserRepositoryTest {
 	@DisplayName("hostUser findAll() 테스트")
 	void testfindAll() {
 
-		HostUser h = new HostUser();
-		Iterable<HostUser> IterA = hur.findAll();
+		Host h = new Host();
+		Iterable<Host> IterA = hur.findAll();
 
 		IterA.forEach(iterA -> {
 			logger.info("------------------");
@@ -175,9 +175,9 @@ class HostUserRepositoryTest {
 	@DisplayName("hostUser update() 테스트")
 	void testUpdate() {
 
-		Optional<HostUser> optA = hur.findById("아이디4");
+		Optional<Host> optA = hur.findById("아이디4");
 		assertTrue(optA.isPresent());
-		HostUser h = optA.get();
+		Host h = optA.get();
 		h.setPwd("1212");
 		h.setEmail("7734@naver.com");
 		h.setTel("111-111-1111");
@@ -188,9 +188,9 @@ class HostUserRepositoryTest {
 	@DisplayName("hostUser delete() 테스트")
 	void testDelete() {
 
-		Optional<HostUser> optA = hur.findById("아이디2");
+		Optional<Host> optA = hur.findById("아이디2");
 		assertTrue(optA.isPresent());
-		HostUser h = optA.get();
+		Host h = optA.get();
 		hur.delete(h);
 	}
 }

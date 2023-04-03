@@ -5,8 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import com.developer.appliedlesson.entity.AppliedLesson;
@@ -28,8 +26,6 @@ public class LessonReviewService {
 	private final AppliedLessonRepository alRepository;
 	private final UsersRepository uRepository;
 
-	private Logger logger = LoggerFactory.getLogger(getClass());
-
 	/**
 	 * 튜터의 수업에 대한 후기 추가 및 수정
 	 * 
@@ -42,15 +38,15 @@ public class LessonReviewService {
 		LessonReview lessonReview = new LessonReview();
 		if (!lr.isPresent()) {
 			lessonReview.setApplySeq(applySeq);
-			lessonReview.setCDate(lrDTO.getCDate());
-			lessonReview.setReview(lrDTO.getReview());
-			lessonReview.setStar(lrDTO.getStar());
+			lessonReview.setLessonReviewDate(lrDTO.getCDate());
+			lessonReview.setLessonReview(lrDTO.getReview());
+			lessonReview.setLessonStar(lrDTO.getStar());
 
 			Optional<AppliedLesson> al = alRepository.findById(applySeq);
 			lessonReview.setAppliedLesson(al.get());
 		} else {
-			lessonReview.setReview(lrDTO.getReview());
-			lessonReview.setStar(lrDTO.getStar());
+			lessonReview.setLessonReview(lrDTO.getReview());
+			lessonReview.setLessonStar(lrDTO.getStar());
 		}
 		lrRepository.save(lessonReview);
 	}
@@ -63,9 +59,8 @@ public class LessonReviewService {
 	 * @throws FindException
 	 */
 	public Integer cntReview(String tutorId) throws FindException {
+		
 		Integer cnt = lrRepository.cntLReview(tutorId);
-		logger.info("값1: " + tutorId);
-		logger.info("값2: " + cnt);
 		if (cnt == null) {
 			cnt = 0;
 		}
@@ -87,11 +82,11 @@ public class LessonReviewService {
 		for (int i = 0; i < list.size(); i++) {
 			LessonReviewDTO.listLRListDTO dto = new LessonReviewDTO.listLRListDTO();
 
-			dto.setReview((String) (list.get(i)[0]));
-			dto.setStar(((BigDecimal) (list.get(i)[1])).intValue());
+			dto.setLessonReview((String) (list.get(i)[0]));
+			dto.setLessonStar(((BigDecimal) (list.get(i)[1])).intValue());
 			dto.setLessonName((String) (list.get(i)[3]));
 			Optional<Users> u = uRepository.findById(userId);
-			dto.setName(u.get().getName());
+			dto.setTuteeName(u.get().getName());
 			result.add(dto);
 		}
 		return result;

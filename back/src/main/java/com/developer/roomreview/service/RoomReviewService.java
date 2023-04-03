@@ -18,7 +18,7 @@ import com.developer.roomreview.dto.RoomReviewDTO;
 import com.developer.roomreview.dto.RoomReviewDTO.RoomReviewInsertDTO;
 import com.developer.roomreview.entity.RoomReview;
 import com.developer.roomreview.repository.RoomReviewRepository;
-import com.developer.studyroom.dto.StudyroomDTO;
+import com.developer.studycafe.dto.StudycafeDTO;
 import com.developer.users.dto.UsersDTO;
 
 @Service
@@ -39,8 +39,8 @@ public class RoomReviewService {
 		rr.setResSeq(rrDTO.getResSeq());
 		Optional<Reservation> optR = rRepository.findById(rrDTO.getResSeq());
 		Reservation r = optR.get();
-		rr.setContent(rrDTO.getContent());
-		rr.setStar(rrDTO.getStar());
+		rr.setRoomContent(rrDTO.getRoomContent());
+		rr.setRoomStar(rrDTO.getRoomStar());
 		rr.setReservation(r);
 		rrRepository.save(rr);
 	}
@@ -60,15 +60,15 @@ public class RoomReviewService {
 		for (int i = 0; i < list.size(); i++) {
 			RoomReviewDTO.RoomReviewSelectAllDTO rrDTO = new RoomReviewDTO.RoomReviewSelectAllDTO();
 
-			rrDTO.setContent((String) list.get(i)[5]);
-			rrDTO.setCdate((Date) list.get(i)[3]);
-			rrDTO.setStar(Integer.parseInt(String.valueOf(list.get(i)[4])));
-			StudyroomDTO.StudyroomNameDTO studyDTO = new StudyroomDTO.StudyroomNameDTO();
-			studyDTO.setName((String) list.get(i)[1]);
+			rrDTO.setRoomContent((String) list.get(i)[5]);
+			rrDTO.setWriteDate((Date) list.get(i)[3]);
+			rrDTO.setRoomStar(Integer.parseInt(String.valueOf(list.get(i)[4])));
+			StudycafeDTO.StudycafeNameDTO studyDTO = new StudycafeDTO.StudycafeNameDTO();
+			studyDTO.setCafeName((String) list.get(i)[1]);
 			ReservationDTO.RoomReviewSelectAllDTO reservationDTO = new ReservationDTO.RoomReviewSelectAllDTO();
 			RoomInfoDTO.RoomInfoNameDTO roomInfoDTO = new RoomInfoDTO.RoomInfoNameDTO();
-			roomInfoDTO.setName((String) list.get(i)[2]);
-			roomInfoDTO.setStudyroomNameDTO(studyDTO);
+			roomInfoDTO.setRoomName((String) list.get(i)[2]);
+			roomInfoDTO.setStudycafeNameDTO(studyDTO);
 			UsersDTO.UserNickNameDTO userDTO = new UsersDTO.UserNickNameDTO();
 
 			userDTO.setNickname((String) list.get(i)[0]);
@@ -92,15 +92,15 @@ public class RoomReviewService {
 		List<RoomReviewDTO.selectMyRmRvDTO> dto = new ArrayList<>();
 		for (int i = 0; i < list.size(); i++) {
 			RoomReviewDTO.selectMyRmRvDTO smDTO = new RoomReviewDTO.selectMyRmRvDTO();
-			smDTO.setContent((String) list.get(i)[4]);
-			smDTO.setCdate((Date) list.get(i)[2]);
-			smDTO.setStar(Integer.parseInt(String.valueOf(list.get(i)[3])));
+			smDTO.setRoomContent((String) list.get(i)[4]);
+			smDTO.setWriteDate((Date) list.get(i)[2]);
+			smDTO.setRoomStar(Integer.parseInt(String.valueOf(list.get(i)[3])));
 			ReservationDTO.RoomReviewSelectMyRmRvDTO resDTO = new ReservationDTO.RoomReviewSelectMyRmRvDTO();
 			RoomInfoDTO.RoomInfoNameDTO rinDTO = new RoomInfoDTO.RoomInfoNameDTO();
-			StudyroomDTO.StudyroomNameDTO studyDTO = new StudyroomDTO.StudyroomNameDTO();
-			studyDTO.setName((String) list.get(i)[0]);
-			rinDTO.setStudyroomNameDTO(studyDTO);
-			rinDTO.setName((String) list.get(i)[1]);
+			StudycafeDTO.StudycafeNameDTO studyDTO = new StudycafeDTO.StudycafeNameDTO();
+			studyDTO.setCafeName((String) list.get(i)[0]);
+			rinDTO.setStudycafeNameDTO(studyDTO);
+			rinDTO.setRoomName((String) list.get(i)[1]);
 			resDTO.setRoomInfoNameDTO(rinDTO);
 			smDTO.setRrsaDTO(resDTO);
 			dto.add(smDTO);
@@ -124,17 +124,17 @@ public class RoomReviewService {
 		RoomReviewDTO.selectMyRmRvDetailDTO rrDTO = new RoomReviewDTO.selectMyRmRvDetailDTO();
 		ReservationDTO.RoomReviewSelectMyRmRvDetailDTO resDTO = new ReservationDTO.RoomReviewSelectMyRmRvDetailDTO();
 		RoomInfoDTO.RoomInfoNameDTO rinDTO = new RoomInfoDTO.RoomInfoNameDTO();
-		StudyroomDTO.StudyroomNameDTO snDTO = new StudyroomDTO.StudyroomNameDTO();
+		StudycafeDTO.StudycafeNameDTO snDTO = new StudycafeDTO.StudycafeNameDTO();
 
 		for (int i = 0; i < list.size(); i++) {
 
-			rrDTO.setCdate((Date) list.get(i)[3]);
-			rrDTO.setStar(Integer.parseInt(String.valueOf(list.get(i)[4])));
-			rrDTO.setContent((String) list.get(i)[5]);
+			rrDTO.setWriteDate((Date) list.get(i)[3]);
+			rrDTO.setRoomStar(Integer.parseInt(String.valueOf(list.get(i)[4])));
+			rrDTO.setRoomContent((String) list.get(i)[5]);
 			resDTO.setUsingDate((Date) list.get(i)[2]);
-			rinDTO.setName((String) list.get(i)[1]);
-			snDTO.setName(String.valueOf(list.get(i)[0]));
-			rinDTO.setStudyroomNameDTO(snDTO);
+			rinDTO.setRoomName((String) list.get(i)[1]);
+			snDTO.setCafeName(String.valueOf(list.get(i)[0]));
+			rinDTO.setStudycafeNameDTO(snDTO);
 			resDTO.setRoomInfoNameDTO(rinDTO);
 			rrDTO.setRrsaDTO(resDTO);
 			dto.add(rrDTO);

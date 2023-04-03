@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 
 public class FavoritesLessonDTO {
 
-	// [JW]
+	// [JW] 나의 수업 즐겨찾기 목록 확인
 	@Data
 	@AllArgsConstructor
 	@NoArgsConstructor
@@ -22,7 +22,7 @@ public class FavoritesLessonDTO {
 		private int category;
 		private String location;
 		@JsonFormat(pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
-		private Date applyEndDate;
+		private Date applyEnd;
 	}
 
 	// [JW]

@@ -25,7 +25,6 @@ import com.developer.appliedlesson.entity.AppliedLesson;
 import com.developer.favoriteslesson.entity.FavoritesLesson;
 import com.developer.orders.entity.Orders;
 import com.developer.tutor.entity.Tutor;
-import com.fasterxml.jackson.annotation.JsonFormat;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -33,9 +32,10 @@ import lombok.Setter;
 
 @Entity
 @Table(name="LESSON")
+
 @DynamicInsert @DynamicUpdate
 @Setter @Getter @NoArgsConstructor
-@JsonFormat(timezone = "Asia/Seoul", pattern ="yyyy-MM-dd")
+
 @SequenceGenerator(
 		name ="lessonSeq", 
 		sequenceName ="lesson_seq", 
@@ -67,20 +67,8 @@ public class Lesson {
 	private Integer people;
 	
 	@NotNull
-	@Column(name="img_path")
-	private String imgPath;
-	
-	@NotNull
-	@Column(name="start_cdate")
-	private Date startCdate;
-	
-	@NotNull
-	@Column(name="end_cdate")
-	private Date endCdate;
-	
-	@NotNull
-	@Column(name="price")
-	private Integer price;
+	@Column(name="lesson_img")
+	private String lessonImg;
 	
 	@NotNull
 	@Column(name="start_date")
@@ -90,14 +78,26 @@ public class Lesson {
 	@Column(name="end_date")
 	private Date endDate;
 	
+	@NotNull
+	@Column(name="price")
+	private Integer price;
+	
+	@NotNull
+	@Column(name="apply_start")
+	private Date applyStart;
+	
+	@NotNull
+	@Column(name="apply_end")
+	private Date applyEnd;
+	
 	@ColumnDefault(value = "2")
 	@Column(name="pay_lesson")
 	private Integer payLesson; //0무료 1유료 2결제대기 3수업삭제
 
-	
 	@NotNull
 	@Column(name="location")
 	private String location;
+	
 
 	
 	@ManyToOne

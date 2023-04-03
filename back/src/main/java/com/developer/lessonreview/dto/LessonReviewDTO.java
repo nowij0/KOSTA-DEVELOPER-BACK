@@ -23,24 +23,24 @@ public class LessonReviewDTO {
 	// [JW]
 	@Data
 	@NoArgsConstructor
-	public static class lrALDTO {
+	public static class lrAlDTO {
 		@JsonFormat(pattern = "yy-MM-dd", timezone = "Asia/Seoul")
-		private Date cDate;
-		private String review;
-		private Integer star;
+		private Date lessonReviewDate;
+		private String lessonReview;
+		private Integer lessonStar;
 	}
 
-	// [JW]
+	// [JW] 작성한 후기 목록 확인
 	@Data
 	@NoArgsConstructor
 	public static class listLRListDTO {
 		private String lessonName;
-		private String review;
-		private Integer star;
-		private String name;
+		private String lessonReview;
+		private Integer lessonStar;
+		private String tuteeName;
 	}
 
-	// [JW]
+	// [JW] 후기를 작성하지 않은 수업 목록 확인
 	@Data
 	@NoArgsConstructor
 	public static class noWriteLReviewDTO {

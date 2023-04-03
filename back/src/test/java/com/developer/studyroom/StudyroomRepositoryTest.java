@@ -128,7 +128,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import com.developer.hostuser.entity.HostUser;
+import com.developer.hostuser.entity.Host;
 import com.developer.hostuser.repository.HostUserRepository;
 import com.developer.studyroom.entity.Studyroom;
 import com.developer.studyroom.repository.StudyroomRepository;
@@ -139,18 +139,18 @@ class StudyroomRepositoryTest {
 	private Logger logger = LoggerFactory.getLogger(getClass());
 
 	@Autowired
-	private StudyroomRepository srr;
+	private StudycafeRepository srr;
 
 	@Autowired
-	private HostUserRepository hur;
+	private HostRepository hur;
 
 	@Test
 	@DisplayName("Studyroom insert() 테스트")
 	void testSave() {
-		Optional<HostUser>optH =hur.findById("아이디1");
+		Optional<Host>optH =hur.findById("아이디1");
 		assertTrue(optH.isPresent());
-		HostUser h = optH.get();
-		Studyroom s = new Studyroom();
+		Host h = optH.get();
+		Studycafe s = new Studycafe();
 		s.setAddr("주소테스트");
 		s.setEndTime("10:00");
 		s.setOpenTime("01:00");
@@ -164,8 +164,8 @@ class StudyroomRepositoryTest {
 	@DisplayName("Studyroom findById() 테스트")
 	void testfindById() {
 
-		Studyroom s = new Studyroom();
-		Optional<Studyroom> optA = srr.findById(3L);
+		Studycafe s = new Studycafe();
+		Optional<Studycafe> optA = srr.findById(3L);
 		assertTrue(optA.isPresent());
 		Long expectedId = 3L;
 		assertEquals(expectedId, optA.get().getSrSeq());
@@ -178,8 +178,8 @@ class StudyroomRepositoryTest {
 	@DisplayName("Studyroom findAll() 테스트")
 	void testfindAll() {
 
-		Studyroom s = new Studyroom();
-		Iterable<Studyroom> IterA = srr.findAll();
+		Studycafe s = new Studycafe();
+		Iterable<Studycafe> IterA = srr.findAll();
 
 		IterA.forEach(iterA -> {
 			logger.info("------------------");
@@ -196,9 +196,9 @@ class StudyroomRepositoryTest {
 	@DisplayName("Studyroom update() 테스트")
 	void testUpdate() {
 
-		Optional<Studyroom> optA = srr.findById(2L);
+		Optional<Studycafe> optA = srr.findById(2L);
 		assertTrue(optA.isPresent());
-		Studyroom s = optA.get();
+		Studycafe s = optA.get();
 		s.setInfo("옹오웅");
 		s.setImgPath("4.png");
 		s.setOpenTime("07:10");
@@ -210,9 +210,9 @@ class StudyroomRepositoryTest {
 	@DisplayName("roominfo delete() 테스트")
 	void testDelete() {
 
-		Optional<Studyroom> optA = srr.findById(1L);
+		Optional<Studycafe> optA = srr.findById(1L);
 		assertTrue(optA.isPresent());
-		Studyroom s = optA.get();
+		Studycafe s = optA.get();
 		srr.delete(s);
 	}
 

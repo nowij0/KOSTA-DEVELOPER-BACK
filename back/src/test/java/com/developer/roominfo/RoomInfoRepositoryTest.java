@@ -129,16 +129,16 @@ class RoomInfoRepositoryTest {
 	private RoomInfoRepository rir;
 	
 	@Autowired
-	private StudyroomRepository srr;
+	private StudycafeRepository srr;
 	
 	@Test
 	@DisplayName("roominfo insert() 테스트")
 	void testSave() {
 
-		Optional<Studyroom>optS =srr.findById(1L);
+		Optional<Studycafe>optS =srr.findById(1L);
 
 		assertTrue(optS.isPresent());
-		Studyroom s = optS.get();
+		Studycafe s = optS.get();
 		RoomInfo r = new RoomInfo();
 		r.setName("2인실");
 		r.setInfo("깨끗해요");

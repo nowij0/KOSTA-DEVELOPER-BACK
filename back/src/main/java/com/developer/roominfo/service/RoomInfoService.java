@@ -13,14 +13,14 @@ import org.springframework.stereotype.Service;
 
 import com.developer.exception.AddException;
 import com.developer.exception.FindException;
-import com.developer.hostuser.dto.HostUserDTO;
+import com.developer.host.dto.HostDTO;
 import com.developer.reservation.dto.ReservationDTO;
 import com.developer.roominfo.dto.RoomInfoDTO;
 import com.developer.roominfo.entity.RoomInfo;
 import com.developer.roominfo.repository.RoomInfoRepository;
-import com.developer.studyroom.dto.StudyroomDTO;
-import com.developer.studyroom.entity.Studyroom;
-import com.developer.studyroom.repository.StudyroomRepository;
+import com.developer.studycafe.dto.StudycafeDTO;
+import com.developer.studycafe.entity.Studycafe;
+import com.developer.studycafe.repository.StudycafeRepository;
 import com.developer.users.dto.UsersDTO;
 
 import lombok.RequiredArgsConstructor;
@@ -30,7 +30,7 @@ import lombok.RequiredArgsConstructor;
 public class RoomInfoService {
 
 	private final RoomInfoRepository riRepository;
-	private final StudyroomRepository sRepository;
+	private final StudycafeRepository sRepository;
 
 	private Logger logger = LoggerFactory.getLogger(getClass());
 	ModelMapper modelMapper = new ModelMapper();
@@ -81,9 +81,9 @@ public class RoomInfoService {
 	 * @throws AddException
 	 */
 	public void insertRoom(RoomInfoDTO roomInfoDTO, Long srSeq) {
-		Optional<Studyroom> optCafe = sRepository.findById(srSeq);
-		Studyroom cafeEntity = optCafe.get();
-		roomInfoDTO.setStudyroom(cafeEntity);
+		Optional<Studycafe> optCafe = sRepository.findById(srSeq);
+		Studycafe cafeEntity = optCafe.get();
+		roomInfoDTO.setStudycafe(cafeEntity);
 		RoomInfo roomEntity = modelMapper.map(roomInfoDTO, RoomInfo.class);
 		riRepository.save(roomEntity);
 	}
@@ -101,9 +101,9 @@ public class RoomInfoService {
 		Optional<RoomInfo> optRoom = riRepository.findById(roomSeq);
 		if (optRoom.isPresent()) {
 			RoomInfo roomEntity = optRoom.get();
-			roomEntity.setName(roomInfoDTO.getName());
+			roomEntity.setRoomName(roomInfoDTO.getRoomName());
 			roomEntity.setInfo(roomInfoDTO.getInfo());
-			roomEntity.setImgPath(roomInfoDTO.getImgPath());
+			roomEntity.setRoomImg(roomInfoDTO.getRoomImg());
 			roomEntity.setPerson(roomInfoDTO.getPerson());
 			roomEntity.setPrice(roomInfoDTO.getPrice());
 			riRepository.save(roomEntity);
@@ -122,7 +122,7 @@ public class RoomInfoService {
 	 */
 	public void deleteRoom(Long roomSeq) throws FindException {
 		RoomInfoDTO roomInfoDTO = this.selectRoom(roomSeq);
-		roomInfoDTO.setStatus(1);
+		roomInfoDTO.setRoomStatus(1);
 		RoomInfo roomEntity = modelMapper.map(roomInfoDTO, RoomInfo.class);
 		riRepository.save(roomEntity);
 	}
@@ -144,19 +144,19 @@ public class RoomInfoService {
 			BigDecimal roomSeq = (BigDecimal) rList.get(i)[0];
 			Long convertRoomSeq = roomSeq.longValue();
 			rDto.setRoomSeq(convertRoomSeq);
-			rDto.setName((String) rList.get(i)[1]);
+			rDto.setRoomName((String) rList.get(i)[1]);
 			rDto.setInfo((String) rList.get(i)[2]);
-			rDto.setImgPath((String) rList.get(i)[3]);
+			rDto.setRoomImg((String) rList.get(i)[3]);
 			BigDecimal person = (BigDecimal) rList.get(i)[4];
 			int convertPerson = person.intValue();
 			rDto.setPerson(convertPerson);
 			BigDecimal price = (BigDecimal) rList.get(i)[5];
 			int convertPrice = price.intValue();
 			rDto.setPrice(convertPrice);
-			StudyroomDTO.StudyroomTimeDTO sDTO = new StudyroomDTO.StudyroomTimeDTO();
+			StudycafeDTO.StudycafeTimeDTO sDTO = new StudycafeDTO.StudycafeTimeDTO();
 			sDTO.setOpenTime((String) rList.get(i)[6]);
 			sDTO.setEndTime((String) rList.get(i)[7]);
-			rDto.setStudyroomTimeDTO(sDTO);
+			rDto.setStudycafeTimeDTO(sDTO);
 
 			rListDto.add(rDto);
 		}
@@ -187,7 +187,7 @@ public class RoomInfoService {
 			UsersDTO.UsersNameDTO uDTO = new UsersDTO.UsersNameDTO();
 			uDTO.setUserId((String) RList.get(i)[2]);
 			uDTO.setNickname((String) RList.get(i)[3]);
-			roomInfoDTO.setName((String) RList.get(i)[1]);
+			roomInfoDTO.setRoomName((String) RList.get(i)[1]);
 			roomInfoDTO.setReservation(resDTO);
 			roomInfoDTO.setUsers(uDTO);
 			dto.add(roomInfoDTO);
@@ -208,23 +208,23 @@ public class RoomInfoService {
 		List<RoomInfoDTO.RoomInfoRoomDetailListDTO> dto = new ArrayList<>();
 		for (int i = 0; i < list.size(); i++) {
 			RoomInfoDTO.RoomInfoRoomDetailListDTO riDTO = new RoomInfoDTO.RoomInfoRoomDetailListDTO();
-			StudyroomDTO.StudyroomHostIdDTO shDTO = new StudyroomDTO.StudyroomHostIdDTO();
-			HostUserDTO.HostIdDTO hhDTO = new HostUserDTO.HostIdDTO();
+			StudycafeDTO.StudycafeHostIdDTO shDTO = new StudycafeDTO.StudycafeHostIdDTO();
+			HostDTO.HostIdDTO hhDTO = new HostDTO.HostIdDTO();
 			BigDecimal room_seq = (BigDecimal) list.get(i)[0];
 			Long resultRoomSeq = room_seq.longValue();
 			riDTO.setRoomSeq(resultRoomSeq);
-			riDTO.setStatus(Integer.parseInt(String.valueOf(list.get(i)[6])));
-			riDTO.setImgPath((String) list.get(i)[1]);
+			riDTO.setRoomStatus(Integer.parseInt(String.valueOf(list.get(i)[6])));
+			riDTO.setRoomImg((String) list.get(i)[1]);
 			riDTO.setInfo((String) list.get(i)[2]);
-			riDTO.setName((String) list.get(i)[3]);
+			riDTO.setRoomName((String) list.get(i)[3]);
 			riDTO.setPerson(Integer.parseInt(String.valueOf(list.get(i)[4])));
 			riDTO.setPrice(Integer.parseInt(String.valueOf(list.get(i)[5])));
 
-			riDTO.setStatus(Integer.parseInt(String.valueOf(list.get(i)[6])));
+			riDTO.setRoomStatus(Integer.parseInt(String.valueOf(list.get(i)[6])));
 			hhDTO.setHostId((String) list.get(i)[8]);
 
 			shDTO.setHostIdDTO(hhDTO);
-			riDTO.setStudyroomDTO(shDTO);
+			riDTO.setStudycafeDTO(shDTO);
 			dto.add(riDTO);
 		}
 		return dto;

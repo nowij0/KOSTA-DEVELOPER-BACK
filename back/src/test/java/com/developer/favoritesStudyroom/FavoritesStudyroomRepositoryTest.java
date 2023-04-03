@@ -20,10 +20,10 @@ class FavoritesStudyroomRepositoryTest {
 	private Logger logger = LoggerFactory.getLogger(getClass()); 
 	
 	@Autowired 
-	private FavoritesStudyroomRepository fsr;
+	private FavoritesStudycafeRepository fsr;
 	
 	@Autowired
-	private StudyroomRepository sr;
+	private StudycafeRepository sr;
 	
 	@Autowired
 	private UsersRepository user;

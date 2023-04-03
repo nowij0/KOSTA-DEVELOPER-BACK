@@ -224,7 +224,7 @@ public class UsersService {
 		List<UsersDTO.uNameDTO> uDTO = new ArrayList<>();
 		for (int i = 0; i < list.size(); i++) {
 			UsersDTO.uNameDTO dto = new UsersDTO.uNameDTO();
-			dto.setName((String) list.get(i)[0]);
+			dto.setTuteeName((String) list.get(i)[0]);
 			dto.setTuteeId((String) list.get(i)[1]);
 			uDTO.add(dto);
 		}

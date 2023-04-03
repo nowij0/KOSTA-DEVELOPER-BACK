@@ -28,10 +28,10 @@ import org.springframework.web.multipart.MultipartFile;
 import com.developer.email.EmailService;
 import com.developer.exception.AddException;
 import com.developer.exception.FindException;
-import com.developer.hostuser.dto.HostUserDTO;
-import com.developer.hostuser.service.HostUserService;
-import com.developer.studyroom.dto.StudyroomDTO;
-import com.developer.studyroom.service.StudyroomService;
+import com.developer.host.dto.HostDTO;
+import com.developer.host.service.HostService;
+import com.developer.studycafe.dto.StudycafeDTO;
+import com.developer.studycafe.service.StudycafeService;
 import com.developer.users.dto.UsersDTO;
 import com.developer.users.service.UsersService;
 import com.developer.util.Attach;
@@ -45,8 +45,8 @@ import net.coobird.thumbnailator.Thumbnailator;
 public class JoinController {
 
 	private final UsersService uService;
-	private final HostUserService hService;
-	private final StudyroomService sService;
+	private final HostService hService;
+	private final StudycafeService sService;
 	private final EmailService emailService;
 
 	private Logger logger = LoggerFactory.getLogger(getClass());
@@ -60,7 +60,7 @@ public class JoinController {
 	 * @throws AddException
 	 */
 	@PostMapping(value = "hostuser")
-	public ResponseEntity<?> addHost(@RequestBody HostUserDTO hostDTO) throws AddException {
+	public ResponseEntity<?> addHost(@RequestBody HostDTO hostDTO) throws AddException {
 		hService.addHost(hostDTO);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
@@ -161,7 +161,7 @@ public class JoinController {
 	 * @throws AddException
 	 */
 	@PostMapping(value = "studyroom")
-	public ResponseEntity<?> addCafe(StudyroomDTO studyroomDTO, // 파일이랑 리퀘스트바디랑 같이 못씀
+	public ResponseEntity<?> addCafe(StudycafeDTO studyroomDTO, // 파일이랑 리퀘스트바디랑 같이 못씀
 			HttpSession session, @RequestPart MultipartFile f) throws AddException {
 
 		// TODO 시간 정규표현식 설정해보기..프론트단이든...뭐든..
@@ -201,7 +201,7 @@ public class JoinController {
 
 				Thumbnailator.createThumbnail(thumbnailIS, thumbnailOS, width, height);
 
-				studyroomDTO.setImgPath(fileName);
+				studyroomDTO.setCafeImg(fileName);
 				sService.insertCafe(studyroomDTO, hostId);
 				logger.info("파일업로드 성공");
 				return new ResponseEntity<>(HttpStatus.OK);

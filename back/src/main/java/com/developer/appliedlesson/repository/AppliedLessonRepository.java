@@ -53,7 +53,7 @@ public interface AppliedLessonRepository extends JpaRepository<AppliedLesson, Lo
 
  	
  	//근형 진행완료된클래스 후기목록
- 	@Query(value="SELECT r.review, r.star, u.nickname "
+ 	@Query(value="SELECT r.lesson_review, r.lesson_star, u.nickname "
  			+ "FROM applied_Lesson a "
  			+ "INNER JOIN lesson_Review r "
  			+ "ON a.apply_seq = r.apply_seq "

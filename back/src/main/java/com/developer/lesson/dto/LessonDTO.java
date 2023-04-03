@@ -60,30 +60,29 @@ public class LessonDTO {
 		private AppliedLessonDTO alDTO;
 	}
 
-	// [JW]
+	// [JW] 수업 등록 및 수정 / 선택한 수업에 대한 상세 정보
 	@Data
-	@NoArgsConstructor
-	@AllArgsConstructor
+	@NoArgsConstructor @AllArgsConstructor
 	public static class selectDetailDTO {
 		private Long lessonSeq;
 		private String lessonName;
 		private Integer category;
 		private String content;
 		private Integer people;
-		private String imgPath;
+		private String lessonImg;
 		@DateTimeFormat(pattern = "yyyy-MM-dd")
 		@JsonFormat(pattern = "yyyy-MM-dd")
-		private Date startCdate;
+		private Date start;
 		@DateTimeFormat(pattern = "yyyy-MM-dd")
 		@JsonFormat(pattern = "yyyy-MM-dd")
-		private Date endCdate;
+		private Date end;
 		private Integer price;
 		@DateTimeFormat(pattern = "yyyy-MM-dd")
 		@JsonFormat(pattern = "yyyy-MM-dd")
-		private Date startDate;
+		private Date applyStart;
 		@DateTimeFormat(pattern = "yyyy-MM-dd")
 		@JsonFormat(pattern = "yyyy-MM-dd")
-		private Date endDate;
+		private Date applyEnd;
 		private Integer payLesson;
 		private String location;
 
@@ -149,7 +148,7 @@ public class LessonDTO {
 	}
 
 
-	// [JW]
+	// [JW] 튜터가 생성한 클래스 목록 + 튜터 정보
 	@Data
 	@NoArgsConstructor
 	public static class onlyLessonDTO {
@@ -158,16 +157,16 @@ public class LessonDTO {
 		private Integer category;
 		private String content;
 		private Integer people;
-		private String imgPath;
+		private String lessonImg;
 		@JsonFormat(pattern = "yyyy-MM-dd")
-		private Date startCdate;
+		private Date start;
 		@JsonFormat(pattern = "yyyy-MM-dd")
-		private Date endCdate;
+		private Date end;
 		private Integer price;
 		@JsonFormat(pattern = "yyyy-MM-dd")
-		private Date startDate;
+		private Date applyStart;
 		@JsonFormat(pattern = "yyyy-MM-dd")
-		private Date endDate;
+		private Date applyEnd;
 		private Integer payLesson;
 		private String location;
 	}
@@ -199,14 +198,14 @@ public class LessonDTO {
 	}
 
 
-	// [JW]
+	// [JW] 튜터가 받은 후기 목록
 	@Data
 	@NoArgsConstructor
 	public static class selectAllReviewDTO {
 		private String lessonName;
-		private String name;
+		private String tutorName;
 
-		private List<AppliedLessonDTO.alLessonDTO> alDTO;
+		private List<AppliedLessonDTO.lessonAlDTO> alDTO;
 	}
 
 	// [JW]
@@ -214,7 +213,7 @@ public class LessonDTO {
 	@NoArgsConstructor
 	@AllArgsConstructor
 	public static class lessonDetailDTO {
-		private selectDetailDTO lessonDto;
+		private selectDetailDTO lessonDTO;
 		private Integer cnt;
 	}
 
@@ -225,7 +224,7 @@ public class LessonDTO {
 		private String lessonName;
 	}
 
-	// [JW]
+	// [JW]  [관리자] 모든 수업 목록
 	@Data
 	@NoArgsConstructor
 	public static class allLessonListDTO {

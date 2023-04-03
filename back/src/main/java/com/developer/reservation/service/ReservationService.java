@@ -14,15 +14,15 @@ import org.springframework.stereotype.Service;
 import com.developer.exception.AddException;
 import com.developer.exception.FindException;
 import com.developer.exception.RemoveException;
-import com.developer.hostuser.entity.HostUser;
-import com.developer.hostuser.repository.HostUserRepository;
+import com.developer.host.entity.Host;
+import com.developer.host.repository.HostRepository;
 import com.developer.reservation.dto.ReservationDTO;
 import com.developer.reservation.entity.Reservation;
 import com.developer.reservation.repository.ReservationRepository;
 import com.developer.roominfo.dto.RoomInfoDTO;
 import com.developer.roominfo.entity.RoomInfo;
 import com.developer.roominfo.repository.RoomInfoRepository;
-import com.developer.studyroom.dto.StudyroomDTO;
+import com.developer.studycafe.dto.StudycafeDTO;
 import com.developer.users.dto.UsersDTO;
 import com.developer.users.entity.Users;
 import com.developer.users.repository.UsersRepository;
@@ -36,7 +36,7 @@ public class ReservationService {
 	private final ReservationRepository rRepository;
 	private final UsersRepository uRepository;
 	private final RoomInfoRepository riRepository;
-	private final HostUserRepository hRepository;
+	private final HostRepository hRepository;
 	private Logger logger = LoggerFactory.getLogger(getClass());
 
 	/**
@@ -66,7 +66,7 @@ public class ReservationService {
 				rDto.setStartTime((String) rList.get(i)[6]);
 				rDto.setEndTime((String) rList.get(i)[7]);
 				RoomInfoDTO.selectAllReservationDTO roomDto = new RoomInfoDTO.selectAllReservationDTO();
-				roomDto.setName((String) rList.get(i)[1]);
+				roomDto.setRoomName((String) rList.get(i)[1]);
 
 				UsersDTO.selectAllReservationDTO uDto = new UsersDTO.selectAllReservationDTO();
 				uDto.setName((String) rList.get(i)[3]);
@@ -111,7 +111,7 @@ public class ReservationService {
 			uDto.setTel((String) rList.get(i)[3]);
 
 			RoomInfoDTO.selectAllReservationDTO riDto = new RoomInfoDTO.selectAllReservationDTO();
-			riDto.setName((String) rList.get(i)[4]);
+			riDto.setRoomName((String) rList.get(i)[4]);
 
 			rDto.setUsersDTO(uDto);
 			rDto.setRoomInfoDTO(riDto);
@@ -150,11 +150,11 @@ public class ReservationService {
 		Optional<Users> optU = uRepository.findById(logined);
 		Users u = optU.get();
 		r.setUsers(u);
-		Optional<HostUser> optH = hRepository.findById(rvDTO.getHostId());
+		Optional<Host> optH = hRepository.findById(rvDTO.getHostId());
 		// r.setUserId(u);
 
-		HostUser hu = optH.get();
-		r.setHostUser(hu);
+		Host hu = optH.get();
+		r.setHost(hu);
 		Optional<RoomInfo> optR = riRepository.findById(rvDTO.getRoomSeq());
 		RoomInfo ri = optR.get();
 
@@ -176,9 +176,9 @@ public class ReservationService {
 	public void insertHostRv(ReservationDTO.insertRvDTO rvDTO, String hostId) throws AddException {
 
 		Reservation r = new Reservation();
-		Optional<HostUser> optH = hRepository.findById(hostId);
-		HostUser h = optH.get();
-		r.setHostUser(h);
+		Optional<Host> optH = hRepository.findById(hostId);
+		Host h = optH.get();
+		r.setHost(h);
 
 		Optional<RoomInfo> optR = riRepository.findById(rvDTO.getRoomSeq());
 		RoomInfo ri = optR.get();
@@ -216,11 +216,11 @@ public class ReservationService {
 			sDTO.setUsingDate((Date) list.get(i)[3]);
 
 			RoomInfoDTO.RoomInfoPriceDTO riDTO = new RoomInfoDTO.RoomInfoPriceDTO();
-			StudyroomDTO.StudyroomTimeDTO srDTO = new StudyroomDTO.StudyroomTimeDTO();
+			StudycafeDTO.StudycafeTimeDTO srDTO = new StudycafeDTO.StudycafeTimeDTO();
 			srDTO.setOpenTime((String) list.get(i)[5]);
 			srDTO.setEndTime((String) list.get(i)[6]);
 			riDTO.setPrice(Integer.parseInt(String.valueOf(list.get(i)[4])));
-			riDTO.setStudyroomTimeDTO(srDTO);
+			riDTO.setStudycafeTimeDTO(srDTO);
 
 			sDTO.setRoomInfoPriceDTO(riDTO);
 			dto.add(sDTO);
@@ -249,11 +249,11 @@ public class ReservationService {
 			dto.setEndTime((String) list.get(i)[5]);
 			dto.setUsingDate((Date) list.get(i)[3]);
 			RoomInfoDTO.RoomInfoNameDTO riDTO = new RoomInfoDTO.RoomInfoNameDTO();
-			StudyroomDTO.StudyroomNameDTO srDTO = new StudyroomDTO.StudyroomNameDTO();
-			srDTO.setName((String) list.get(i)[1]);
+			StudycafeDTO.StudycafeNameDTO srDTO = new StudycafeDTO.StudycafeNameDTO();
+			srDTO.setCafeName((String) list.get(i)[1]);
 
-			riDTO.setName((String) list.get(i)[2]);
-			riDTO.setStudyroomNameDTO(srDTO);
+			riDTO.setRoomName((String) list.get(i)[2]);
+			riDTO.setStudycafeNameDTO(srDTO);
 			dto.setRoomInfoNameDTO(riDTO);
 			rDTO.add(dto);
 		}
@@ -282,10 +282,10 @@ public class ReservationService {
 			rDTO.setUsingDate((Date) rlist.get(i)[3]);
 
 			RoomInfoDTO.RoomInfoNameDTO riDTO = new RoomInfoDTO.RoomInfoNameDTO();
-			StudyroomDTO.StudyroomNameDTO sDTO = new StudyroomDTO.StudyroomNameDTO();
-			sDTO.setName((String) rlist.get(i)[1]);
-			riDTO.setName((String) rlist.get(i)[2]);
-			riDTO.setStudyroomNameDTO(sDTO);
+			StudycafeDTO.StudycafeNameDTO sDTO = new StudycafeDTO.StudycafeNameDTO();
+			sDTO.setCafeName((String) rlist.get(i)[1]);
+			riDTO.setRoomName((String) rlist.get(i)[2]);
+			riDTO.setStudycafeNameDTO(sDTO);
 			rDTO.setRoomInfoNameDTO(riDTO);
 			dto.add(rDTO);
 		}

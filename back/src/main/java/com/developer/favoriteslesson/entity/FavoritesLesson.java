@@ -22,11 +22,9 @@ import lombok.Setter;
 
 @Entity
 @Table(name = "FAVORITES_LESSON")
-@DynamicInsert
-@DynamicUpdate
+@DynamicInsert @DynamicUpdate
 
-@Setter
-@Getter
+@Setter @Getter
 @NoArgsConstructor
 @SequenceGenerator(name = "favLesSeq", sequenceName = "fav_les_seq", initialValue = 1, allocationSize = 1)
 public class FavoritesLesson {

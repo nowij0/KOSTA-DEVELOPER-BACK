@@ -48,7 +48,7 @@ public class FavoritesLessonService {
 			flDTO.setLessonName(l.get().getLessonName());
 			flDTO.setCategory(l.get().getCategory());
 			flDTO.setLocation(l.get().getLocation());
-			flDTO.setApplyEndDate(l.get().getEndDate());
+			flDTO.setApplyEnd(l.get().getApplyEnd());
 			Long favLesSeq = ((BigDecimal) flList.get(i)[0]).longValue();
 			flDTO.setFavLesSeq(favLesSeq);
 			flDTOList.add(flDTO);

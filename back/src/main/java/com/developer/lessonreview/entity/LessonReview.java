@@ -17,7 +17,6 @@ import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
 import com.developer.appliedlesson.entity.AppliedLesson;
-import com.fasterxml.jackson.annotation.JsonFormat;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -30,20 +29,23 @@ import lombok.Setter;
 
 @Setter@Getter
 @NoArgsConstructor
-@JsonFormat(pattern = "yy-MM-dd", timezone = "Asia/Seoul")
 public class LessonReview {
 	@Id
 	@Column(name="apply_seq")
 	private Long applySeq;
-	@ColumnDefault(value="sysdate")
-	@Column(name="cdate")
-	private Date cDate;
+	
+	@ColumnDefault(value="SYSDATE")
+	@Column(name="lesson_review_date")
+	private Date lessonReviewDate;
+	
 	@NotNull
-	@Column(name="review")
-	private String review;
+	@Column(name="lesson_review")
+	private String lessonReview;
+	
 	@NotNull
-	@Column(name="star")
-	private Integer star;	
+	@Column(name="lesson_star")
+	private Integer lessonStar;	
+	
 	
 	@MapsId("applySeq")
 	@OneToOne(cascade = CascadeType.MERGE)

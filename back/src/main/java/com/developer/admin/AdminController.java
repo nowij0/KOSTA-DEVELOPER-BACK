@@ -17,16 +17,16 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.developer.exception.FindException;
 import com.developer.exception.RemoveException;
-import com.developer.hostuser.dto.HostUserDTO;
-import com.developer.hostuser.entity.HostUser;
-import com.developer.hostuser.service.HostUserService;
+import com.developer.host.dto.HostDTO;
+import com.developer.host.entity.Host;
+import com.developer.host.service.HostService;
 import com.developer.lesson.dto.LessonDTO;
 import com.developer.lesson.service.LessonService;
 import com.developer.roominfo.dto.RoomInfoDTO;
 import com.developer.roominfo.service.RoomInfoService;
-import com.developer.studyroom.dto.StudyroomDTO;
-import com.developer.studyroom.entity.Studyroom;
-import com.developer.studyroom.service.StudyroomService;
+import com.developer.studycafe.dto.StudycafeDTO;
+import com.developer.studycafe.entity.Studycafe;
+import com.developer.studycafe.service.StudycafeService;
 import com.developer.tutor.service.TutorService;
 import com.developer.users.dto.UsersDTO;
 import com.developer.users.service.UsersService;
@@ -38,12 +38,12 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class AdminController {
 
-	private final HostUserService hService;
+	private final HostService hService;
 	private final LessonService lservice;
 	private final UsersService uService;
 	private final TutorService tService;
 	private final RoomInfoService riService;
-	private final StudyroomService sService;
+	private final StudycafeService sService;
 
 
 	/**
@@ -54,7 +54,7 @@ public class AdminController {
 	 */
 	@GetMapping(value = "host")
 	public ResponseEntity<?> selectAllHostUser() throws FindException {
-		List<HostUser> list = hService.selectAll();
+		List<Host> list = hService.selectAll();
 		return new ResponseEntity<>(list, HttpStatus.OK);
 	}
 
@@ -69,9 +69,9 @@ public class AdminController {
 	public ResponseEntity<?> getStudyroomList5() throws FindException {
 		AdminDTO.getList5DTO dto = new AdminDTO.getList5DTO();
 
-		List<StudyroomDTO.StudyroomList5DTO> list1 = sService.selectList5();
+		List<StudycafeDTO.StudycafeList5DTO> list1 = sService.selectList5();
 		List<LessonDTO.LessonList5DTO> list2 = lservice.selectList5();
-		dto.setStudyroomList5DTO(list1);
+		dto.setStudycafeList5DTO(list1);
 		dto.setLessonList5DTO(list2);
 		return new ResponseEntity<>(dto, HttpStatus.OK);
 
@@ -214,7 +214,7 @@ public class AdminController {
 	@GetMapping(value = "host/unapprove")
 	public ResponseEntity<?> hostUnapproveList() throws FindException {
 
-		List<HostUserDTO.unApproveHostDTO> list = hService.hostUnapproveList();
+		List<HostDTO.unApproveHostDTO> list = hService.hostUnapproveList();
 		if (list.isEmpty()) {
 			return new ResponseEntity<>("미승인 호스트 유저가 없습니다.", HttpStatus.BAD_REQUEST);
 		}
@@ -262,7 +262,7 @@ public class AdminController {
 	 */
 	@GetMapping(value = "studyroom")
 	public ResponseEntity<?> getAllStudyroom() throws FindException {
-		List<StudyroomDTO.getAllStudyroomDTO> list = sService.getAllStudyroom();
+		List<StudycafeDTO.getAllStudycafeDTO> list = sService.getAllStudyroom();
 		return new ResponseEntity<>(list, HttpStatus.OK);
 	}
 
@@ -279,7 +279,7 @@ public class AdminController {
 
 		AdminDTO.adminStudyroomDetailDTO dto = new AdminDTO.adminStudyroomDetailDTO();
 
-		Studyroom s = sService.detailStudyroom(srSeq);
+		Studycafe s = sService.detailStudyroom(srSeq);
 		List<RoomInfoDTO.getReservationDTO> lList = riService.getReservation(srSeq);
 
 		dto.setS(s);
@@ -299,7 +299,7 @@ public class AdminController {
 	 */
 	@GetMapping(value = "host/detail/{hostId}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<?> infoHost(@PathVariable String hostId, HttpSession session) throws FindException {
-		HostUserDTO hostDTO = hService.selectHost(hostId);
+		HostDTO hostDTO = hService.selectHost(hostId);
 		return new ResponseEntity<>(hostDTO, HttpStatus.OK);
 	}
 }

@@ -77,7 +77,7 @@ public class TutorController {
 
 				Thumbnailator.createThumbnail(thumbnailsS, thumbnailOs, width, height);
 
-				tDTO.setImgPath(fileName);
+				tDTO.setTutorImg(fileName);
 				System.out.println("컨트롤단: " + logined);
 				tservice.saveTutor(tDTO, logined);
 				return new ResponseEntity<>("등록 성공", HttpStatus.OK);

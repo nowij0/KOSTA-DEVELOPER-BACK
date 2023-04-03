@@ -11,10 +11,10 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 public class BoardRepDTO {
-	private Long postRepSeq;
-	private String content;
+	private Long boardReqSeq;
+	private String replyContent;
 	@JsonFormat(pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
-	private Date cDate;
+	private Date boardRepDate;
 	private BoardDTO bDTO;
 	private UsersDTO uDTO;
 
@@ -22,10 +22,10 @@ public class BoardRepDTO {
 	@Data
 	@NoArgsConstructor
 	public static class BoardRepSelectDTO {
-		private Long postRepSeq;
-		private String content;
+		private Long boardReqSeq;
+		private String replyContent;
 		@JsonFormat(pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
-		private Date cDate;
+		private Date boardRepDate;
 		private UsersDTO.UsersNameDTO usersNameDTO;
 	}
 
@@ -33,10 +33,10 @@ public class BoardRepDTO {
 	@Data
 	@NoArgsConstructor
 	public static class saveBoardRepDTO {
-		private Long postRepSeq;
+		private Long boardReqSeq;
 		private String content;
 		@JsonFormat(pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
-		private Date cDate;
+		private Date boardRepDate;
 		private BoardDTO boardDTO;
 		private UsersDTO.UsersNameDTO usersNameDTO;
 	}

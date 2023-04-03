@@ -37,7 +37,7 @@ public class Recommend {
 	
 	
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "post_seq", nullable = false)
+	@JoinColumn(name = "board_seq", nullable = false)
 	private Board board;
 
 	@ManyToOne(fetch = FetchType.LAZY)

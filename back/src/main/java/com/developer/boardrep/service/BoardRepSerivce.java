@@ -40,7 +40,7 @@ public class BoardRepSerivce {
 		Optional<Board> optB = BoardRepository.findById(postSeq);
 		boardRep.setBoard(optB.get());
 		writer.setUserId(logined);
-		boardRep.setContent(boardRepDTO.getContent());
+		boardRep.setReplyContent(boardRepDTO.getContent());
 		boardRep.setUsers(writer);
 		BoardRepRepository.save(boardRep);
 	}
@@ -59,7 +59,7 @@ public class BoardRepSerivce {
 		Optional<BoardRep> optBR = BoardRepRepository.findById(postRepSeq);
 		if (optBR.isPresent()) {
 			BoardRep br = optBR.get();
-			br.setContent(boardRepDTO.getContent());
+			br.setReplyContent(boardRepDTO.getContent());
 			BoardRepRepository.save(br);
 		} else {
 			throw new ModifyException("정상적인 수정이 되지 않았습니다.");

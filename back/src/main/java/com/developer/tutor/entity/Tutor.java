@@ -25,22 +25,24 @@ import lombok.Setter;
 
 @Entity
 @Table(name = "TUTOR")
-@DynamicInsert
-@DynamicUpdate
+@DynamicInsert @DynamicUpdate
 
-@Getter
-@Setter
+@Getter @Setter
 @NoArgsConstructor
 public class Tutor {
 	@Id
 	@Column(name = "tutor_id")
 	private String tutorId;
+	
 	@Column(name = "info")
 	private String info;
-	@Column(name = "img_path")
-	private String imgPath;
+	
+	@Column(name = "tutor_img")
+	private String tutorImg;
+	
 	@Column(name = "star_avg")
 	private Double starAvg;
+	
 	@Column(name = "apply_ok")
 	private Integer applyOk;
 

@@ -4,8 +4,8 @@ import java.util.List;
 
 import com.developer.reservation.dto.ReservationDTO;
 import com.developer.reservation.entity.Reservation;
-import com.developer.studyroom.dto.StudyroomDTO;
-import com.developer.studyroom.entity.Studyroom;
+import com.developer.studycafe.dto.StudycafeDTO;
+import com.developer.studycafe.entity.Studycafe;
 import com.developer.users.dto.UsersDTO;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -18,15 +18,15 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class RoomInfoDTO {
 	private Long roomSeq;
-	private String name;
+	private String roomName;
 	private String info;
-	private String imgPath;
+	private String roomImg;
 	private Integer person;
 	private Integer price;
-	private Integer status;
+	private Integer roomStatus;
 
 	@JsonIgnore
-	private Studyroom studyroom;
+	private Studycafe studycafe;
 	@JsonIgnore
 	private List<Reservation> reservation; // 원래 List<>타입
 
@@ -34,7 +34,7 @@ public class RoomInfoDTO {
 	@Data
 	@NoArgsConstructor
 	public static class getReservationDTO {
-		private String name;
+		private String roomName;
 		private ReservationDTO.getReservationDTO reservation;
 		private UsersDTO.UsersNameDTO users;
 	}
@@ -45,12 +45,12 @@ public class RoomInfoDTO {
 	@AllArgsConstructor
 	public static class selectAllRoomDTO {
 		private Long roomSeq;
-		private String name;
+		private String roomName;
 		private String info;
-		private String imgPath;
+		private String roomImg;
 		private Integer person;
 		private Integer price;
-		private StudyroomDTO.StudyroomTimeDTO studyroomTimeDTO;
+		private StudycafeDTO.StudycafeTimeDTO studycafeTimeDTO;
 	}
 
 	// SR: 예약목록/상세 출력용
@@ -58,15 +58,15 @@ public class RoomInfoDTO {
 	@NoArgsConstructor
 	@AllArgsConstructor
 	public static class selectAllReservationDTO {
-		private String name;
+		private String roomName;
 	}
 
 	// ds
 	@Data
 	@NoArgsConstructor
 	public static class RoomInfoNameDTO {
-		private String name;
-		private StudyroomDTO.StudyroomNameDTO studyroomNameDTO;
+		private String roomName;
+		private StudycafeDTO.StudycafeNameDTO studycafeNameDTO;
 	}
 
 	// ds
@@ -74,7 +74,7 @@ public class RoomInfoDTO {
 	@NoArgsConstructor
 	public static class RoomInfoPriceDTO {
 		private Integer price;
-		private StudyroomDTO.StudyroomTimeDTO studyroomTimeDTO;
+		private StudycafeDTO.StudycafeTimeDTO studycafeTimeDTO;
 	}
 
 	// ds
@@ -104,13 +104,13 @@ public class RoomInfoDTO {
 	@NoArgsConstructor
 	public static class RoomInfoRoomDetailListDTO {
 		private long roomSeq;
-		private String name;
+		private String roomName;
 		private String info;
-		private String imgPath;
+		private String roomImg;
 		private Integer person;
 		private Integer price;
-		private Integer status;
-		private StudyroomDTO.StudyroomHostIdDTO studyroomDTO;
+		private Integer roomStatus;
+		private StudycafeDTO.StudycafeHostIdDTO studycafeDTO;
 	}
 
 }

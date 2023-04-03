@@ -17,9 +17,12 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
+
+import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
-import com.developer.hostuser.entity.HostUser;
+
+import com.developer.host.entity.Host;
 import com.developer.roominfo.entity.RoomInfo;
 import com.developer.roomreview.entity.RoomReview;
 import com.developer.users.entity.Users;
@@ -28,14 +31,13 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Setter
-@Getter
+@Setter @Getter
 @NoArgsConstructor
+
 @Entity
 @Table(name = "RESERVATION")
-@DynamicInsert
-@DynamicUpdate
 
+@DynamicInsert @DynamicUpdate
 @SequenceGenerator(name = "RES_SEQ_GENERATOR", // 사용할 sequence 이름
 		sequenceName = "res_seq", // 실제 데이터베이스 sequence 이름
 		initialValue = 1, allocationSize = 1)
@@ -53,6 +55,11 @@ public class Reservation {
 	@Column(name = "end_time")
 	private String endTime;
 
+	@ColumnDefault(value = "SYSDATE")
+	@Temporal(TemporalType.DATE)
+	@Column(name = "res_date")
+	private Date resDate;
+	
 	@NotNull
 	@Temporal(TemporalType.DATE)
 	@Column(name = "using_date")
@@ -69,7 +76,7 @@ public class Reservation {
 
 	@ManyToOne // (cascade= {CascadeType.MERGE})
 	@JoinColumn(name = "host_id")
-	private HostUser hostUser;
+	private Host host;
 
 	@ManyToOne // (cascade= {CascadeType.MERGE})
 	@JoinColumn(name = "room_seq")

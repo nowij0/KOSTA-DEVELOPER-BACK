@@ -14,37 +14,34 @@ import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 import com.developer.reservation.entity.Reservation;
-import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Setter
-@Getter
+@Setter @Getter
 @NoArgsConstructor
+
 @Entity
 @Table(name = "ROOM_REVIEW")
-@DynamicInsert
-@DynamicUpdate
-
+@DynamicInsert @DynamicUpdate
 public class RoomReview {
 	@Id
 	@Column(name = "res_seq")
 	private Long resSeq;
 
 	@NotNull
-	@Column(name = "content")
-	private String content;
+	@Column(name = "room_content")
+	private String roomContent;
 
 	@NotNull
-	@Column(name = "star")
-	private Integer star;
+	@Column(name = "room_star")
+	private Integer roomStar;
 
-	@JsonFormat(pattern = "yyyy-mm-dd", timezone = "Asia/Seoul")
-	@ColumnDefault(value = "sysdate")
-	@Column(name = "cdate")
-	private Date cDate;
+	@ColumnDefault(value = "SYSDATE")
+	@Column(name = "write_date")
+	private Date writeDate;
 
+	
 	@MapsId("resSeq")
 	@OneToOne(cascade = CascadeType.MERGE)
 	@JoinColumn(name = "res_seq") // inner

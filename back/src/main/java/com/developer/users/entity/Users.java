@@ -21,7 +21,8 @@ import org.hibernate.annotations.DynamicUpdate;
 import com.developer.appliedlesson.entity.AppliedLesson;
 import com.developer.board.entity.Board;
 import com.developer.boardrep.entity.BoardRep;
-import com.developer.favoritesstudyroom.entity.FavoritesStudyroom;
+import com.developer.favoriteslesson.entity.FavoritesLesson;
+import com.developer.favoritesstudycafe.entity.FavoritesStudycafe;
 import com.developer.recommend.entity.Recommend;
 import com.developer.reservation.entity.Reservation;
 import com.developer.tutor.entity.Tutor;
@@ -30,13 +31,12 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Getter
-@Setter
+@Getter @Setter
 @NoArgsConstructor
+
 @Entity
 @Table(name = "users")
-@DynamicInsert
-@DynamicUpdate
+@DynamicInsert @DynamicUpdate
 public class Users {
 	@Id
 	@Column(name = "user_id")
@@ -76,6 +76,7 @@ public class Users {
 
 	@OneToOne(mappedBy = "users", cascade = CascadeType.REMOVE)
 	private Tutor tutor;
+	
 
 	@OneToMany(mappedBy = "users")
 	private List<AppliedLesson> appliedLesson;
@@ -93,8 +94,8 @@ public class Users {
 	private List<Reservation> reservation;
 
 	@OneToMany(cascade = CascadeType.REMOVE, mappedBy = "users")
-	private List<FavoritesStudyroom> favoritesStudyroom;
+	private List<FavoritesStudycafe> favoritesStudyroom;
 
 	@OneToMany(mappedBy = "users", cascade = CascadeType.REMOVE)
-	private List<FavoritesStudyroom> favStudyroom;
+	private List<FavoritesLesson> favoritesLesson;
 }

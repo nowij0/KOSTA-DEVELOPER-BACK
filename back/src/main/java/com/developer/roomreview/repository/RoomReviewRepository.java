@@ -16,16 +16,16 @@ public interface RoomReviewRepository extends JpaRepository<RoomReview, Long> {
 	 * @param srSeq 스터디카페 시퀀스(장소번호) 
 	 * @return List<Object[]> 특정스터디카페 후기 리스트
 	 */
-	@Query(value = "	SELECT u.nickname, s.name AS sName,	r.name AS rifName, rev.cdate, rev.star, rev.content\r\n"
-			+ "		FROM STUDYROOM s, ROOM_INFO r,\r\n"
+	@Query(value = "	SELECT u.nickname, s.cafe_name AS sName,	r.room_name AS rifName, rev.write_date, rev.room_star, rev.room_content\r\n"
+			+ "		FROM studycafe s, ROOM_INFO r,\r\n"
 			+ "		RESERVATION res, ROOM_REVIEW rev, USERS u\r\n"
 			+ "		WHERE res.res_seq =\r\n"
 			+ "		rev.res_seq\r\n"
 			+ "		and u.user_id = res.user_id\r\n"
 			+ "		and r.room_seq = res.room_seq\r\n"
-			+ "		and s.sr_seq = r.sr_seq\r\n"
-			+ "		and s.sr_seq= :srSeq\r\n"
-			+ "		order by rev.cdate DESC", nativeQuery = true)
+			+ "		and s.cafe_seq = r.cafe_seq\r\n"
+			+ "		and s.cafe_seq= :srSeq\r\n"
+			+ "		order by rev.write_date DESC", nativeQuery = true)
 	public List<Object[]> findBySrSeq1(@Param("srSeq") String srSeq);
 	
 	/**
@@ -34,14 +34,14 @@ public interface RoomReviewRepository extends JpaRepository<RoomReview, Long> {
 	 * @param userId 유저아이디 
 	 * @return List<Object[]> 유저의 작성한 이용후기 전체목록
 	 */
-	@Query(value="SELECT s.name AS srName, rif.name AS riName, rr.cdate, \r\n"
-			+ "		rr.star, rr.content\r\n"
-			+ "		FROM studyroom s, room_info rif, reservation r, room_review rr\r\n"
-			+ "		WHERE s.sr_seq = rif.sr_seq\r\n"
+	@Query(value="SELECT s.cafe_name AS srName, rif.room_name AS riName, rr.write_date, \r\n"
+			+ "		rr.room_star, rr.room_content\r\n"
+			+ "		FROM studycafe s, room_info rif, reservation r, room_review rr\r\n"
+			+ "		WHERE s.cafe_seq = rif.cafe_seq\r\n"
 			+ "		AND rif.room_seq = r.room_seq\r\n"
 			+ "		AND rr.res_seq = r.res_seq\r\n"
 			+ "		AND r.user_id = :userId\r\n"
-			+ "		ORDER BY RR.CDATE DESC", nativeQuery = true)
+			+ "		ORDER BY RR.write_date DESC", nativeQuery = true)
 	public List<Object[]> findByUserId(@Param("userId") String userId);
 	
 
@@ -51,11 +51,11 @@ public interface RoomReviewRepository extends JpaRepository<RoomReview, Long> {
 	 * @param resSeq 예약 시퀀스
 	 * @return List<Object[]> 유저의 작성한 이용후기 상세정보
 	 */
-	@Query(name = "	SELECT s.name AS srName, rif.name AS riName, r.using_date, rr.cdate, rr.star, rr.content\r\n"
-			+ "		FROM studyroom s, room_info rif, reservation r,room_review rr\r\n"
+	@Query(name = "	SELECT s.cafe_name AS srName, rif.room_name AS riName, r.using_date, rr.write_date, rr.room_star, rr.room_content\r\n"
+			+ "		FROM studycafe s, room_info rif, reservation r,room_review rr\r\n"
 			+ "		WHERE rr.res_seq = r.res_seq\r\n"
 			+ "		AND rif.room_seq = r.room_seq\r\n"
-			+ "		AND s.sr_seq = rif.sr_seq\r\n"
+			+ "		AND s.cafe_seq = rif.cafe_seq\r\n"
 			+ "		AND r.res_seq = :resSeq", nativeQuery = true)
 	public List<Object[]> getByResSeq(@Param("resSeq") Long resSeq);
 	

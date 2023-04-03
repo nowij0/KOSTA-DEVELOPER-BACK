@@ -7,7 +7,7 @@ import com.developer.appliedlesson.entity.AppliedLesson;
 import com.developer.board.dto.BoardDTO;
 import com.developer.boardrep.dto.BoardRepDTO;
 import com.developer.favoriteslesson.entity.FavoritesLesson;
-import com.developer.favoritesstudyroom.entity.FavoritesStudyroom;
+import com.developer.favoritesstudycafe.entity.FavoritesStudycafe;
 import com.developer.lesson.dto.LessonDTO;
 import com.developer.lessonreview.dto.LessonReviewDTO;
 import com.developer.recommend.dto.RecommendDTO;
@@ -42,7 +42,7 @@ public class UsersDTO {
 	private RecommendDTO recommendDTO;
 	private List<Recommend> recommend;
 	private List<Reservation> reservation;
-	private List<FavoritesStudyroom> favStudyroom;
+	private List<FavoritesStudycafe> favStudycafe;
 
 	// [JH]
 	@Data
@@ -58,11 +58,11 @@ public class UsersDTO {
 		private String addr;
 	}
 
-	// [JW]
+	// [JW] [관리자] 수업을 예약한 튜티 목록
 	@Data
 	@NoArgsConstructor
 	public static class uNameDTO {
-		private String name;
+		private String tuteeName;
 		private String tuteeId;
 	}
 

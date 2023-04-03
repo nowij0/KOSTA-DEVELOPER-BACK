@@ -16,10 +16,10 @@ public interface BoardRepository extends JpaRepository<Board, Long> {
 	 * @param postSeq
 	 * @return
 	 */
-	@Query(value = "select users.nickname, board.post_seq, board.category, board.title, board.content,"
-			+ "		board.img_path, board.c_date, board.recommend, board.cnt"
+	@Query(value = "select users.nickname, board.board_seq, board.category, board.title, board.board_content,"
+			+ "		board.board_img, board.board_date, board.recommend_cnt, board.hit"
 			+ "		from users inner join board on users.user_id = board.user_id"
-			+ "		where post_seq=:postSeq", nativeQuery = true)
+			+ "		where board_seq=:postSeq", nativeQuery = true)
 	public List<Object[]> detailBoard(@Param("postSeq") Long postSeq);
 
 	/**
@@ -30,8 +30,8 @@ public interface BoardRepository extends JpaRepository<Board, Long> {
 	 * @return
 	 */
 	@Query(value = "SELECT * " + "FROM ( SELECT rownum rn, a. * " + "		FROM ( "
-			+ "            SELECT  users.nickname, board.post_seq, board.category, board.title, board.content, "
-			+ "    board.img_path, board.c_date, board.recommend, board.cnt "
+			+ "            SELECT  users.nickname, board.board_seq, board.category, board.title, board.board_content, "
+			+ "    board.board_img, board.board_date, board.recommend_cnt, board.hit "
 			+ "            FROM users inner join board on users.user_id = board.user_id "
 			+ " 		   where board.title like %:title% " + "            ORDER BY c_date  desc" + "      ) a) "
 			+ "	WHERE rn BETWEEN :startRow AND :endRow", nativeQuery = true)
@@ -48,12 +48,12 @@ public interface BoardRepository extends JpaRepository<Board, Long> {
 	 * @return
 	 */
 	@Query(value = "SELECT b.*, r.* " + "FROM (" + "  SELECT b.user_id AS b_user_id, u.nickname AS u_nickname,"
-			+ "       b.post_seq AS board_post_seq, b.category, b.title, b.content AS bContent, b.img_path, b.c_date, b.recommend,  b.cnt "
-			+ "  FROM board b JOIN users u on b.user_id = u.user_id" + "  WHERE b.post_seq = :postSeq) b "
+			+ "       b.board_seq AS board_post_seq, b.category, b.title, b.content AS bContent, b.board_img, b.c_date, b.recommend_cnt,  b.hit "
+			+ "  FROM board b JOIN users u on b.user_id = u.user_id" + "  WHERE b.board_seq = :postSeq) b "
 			+ "LEFT JOIN (" + "  SELECT "
-			+ "    r.post_seq AS board_rep_post_seq, r.user_id AS r_user_id, r.content AS rContent, r.cdate, "
+			+ "    r.board_rep_seq AS board_rep_post_seq, r.user_id AS r_user_id, r.reply_content AS rContent, r.board_rep_date, "
 			+ "    ru.nickname AS ru_nickname, r.post_rep_seq"
-			+ "  FROM board_rep r JOIN users ru ON r.user_id = ru.user_id " + "  WHERE r.post_seq = :postSeq"
+			+ "  FROM board_rep r JOIN users ru ON r.user_id = ru.user_id " + "  WHERE r.board_rep_date = :postSeq"
 			+ ") r ON b.board_post_seq = r.board_rep_post_seq", nativeQuery = true)
 	public List<Object[]> findPostSeq(@Param("postSeq") Long postSeq);
 
@@ -66,10 +66,10 @@ public interface BoardRepository extends JpaRepository<Board, Long> {
 	 */
 
 	@Query(value = "SELECT * " + "FROM ( SELECT rownum rn, a. * " + "		FROM ("
-			+ "            SELECT  users.nickname, board.post_seq, board.category, board.title, board.content,"
-			+ "    board.img_path, board.c_date, board.recommend, board.cnt "
+			+ "            SELECT  users.nickname, board.board_seq, board.category, board.title, board.board_content,"
+			+ "    board.board_img, board.board_date, board.recommend_cnt, board.hit "
 			+ "            FROM users inner join board on users.user_id = board.user_id "
-			+ "            ORDER BY c_date desc " + "      ) a) "
+			+ "            ORDER BY board_date desc " + "      ) a) "
 			+ "	WHERE rn BETWEEN :startRow AND :endRow", nativeQuery = true)
 	public List<Object[]> listBoard(@Param("startRow") int startRow,
 			@Param("endRow") int endRow);
@@ -81,8 +81,8 @@ public interface BoardRepository extends JpaRepository<Board, Long> {
 	 * @return
 	 */
 	@Query(value = "SELECT * FROM ( SELECT rownum rn, a. * 	FROM (\n"
-			+ "			           SELECT  users.nickname, board.post_seq, board.category, board.title, board.content,\n"
-			+ "			    board.img_path, board.c_date, board.recommend, board.cnt \n"
+			+ "			           SELECT  users.nickname, board.board_seq, board.category, board.title, board.board_content,\n"
+			+ "			    board.board_img, board.board_date, board.recommend_cnt, board.hit \n"
 			+ "			            FROM users inner join board on users.user_id = board.user_id \n"
 			+ "			            ORDER BY cnt desc ) a) \n"
 			+ "				WHERE rn BETWEEN :startRow AND :endRow", nativeQuery = true)
@@ -103,10 +103,10 @@ public interface BoardRepository extends JpaRepository<Board, Long> {
 	 * @author choigeunhyeong
 	 * @return
 	 */
-	@Query(value = "select users.nickname, board.post_seq, board.category, board.title, board.content,"
-			+ "		board.img_path, board.c_date, board.recommend, board.cnt" + "		from users"
+	@Query(value = "select users.nickname, board.board_seq, board.category, board.title, board.board_content,"
+			+ "		board.board_img, board.board_date, board.recommend_cnt, board.hit" + "from users"
 			+ "		inner join board" + "		on users.user_id = board.user_id"
-			+ "		order by recommend desc", nativeQuery = true)
+			+ "		order by recommend_cnt desc", nativeQuery = true)
 	public List<Object[]> getBoardByRecommend();
 
 	/**
@@ -115,13 +115,13 @@ public interface BoardRepository extends JpaRepository<Board, Long> {
 	 * @author choigeunhyeong
 	 * @param postSeq
 	 */
-	@Query(value = "update board set cnt =" + "		cnt+1 where post_seq= :postSeq", nativeQuery = true)
+	@Query(value = "update board set hit =" + "		hit+1 where board_seq= :postSeq", nativeQuery = true)
 	public Board updateCnt(@Param("postSeq") Long postSeq);
 
 	// [SR]메인페이지 - 글작성 최신순으로 list 출력
 	@Query(value = "SELECT *"
-			+ "FROM (SELECT b.post_seq, u.nickname, b.category, b.title, b.content, b.img_path, b.c_date, b.recommend, b.cnt "
-			+ "      FROM users u INNER JOIN board b ON u.user_id = b.user_id " + "      ORDER BY c_date DESC)"
+			+ "FROM (SELECT b.board_seq, u.nickname, b.category, b.title, b.board_content, b.board_img, b.board_date, b.recommend_cnt, b.hit "
+			+ "      FROM users u INNER JOIN board b ON u.user_id = b.user_id " + " ORDER BY board_date DESC)"
 			+ "WHERE rownum BETWEEN 1 AND 6", nativeQuery = true)
 	public List<Object[]> selectAllByDate();
 
