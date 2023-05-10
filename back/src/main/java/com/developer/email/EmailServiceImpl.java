@@ -73,12 +73,6 @@ public class EmailServiceImpl implements EmailService {
 		msgg += "<h3 style='color:blue;'> [DEVELOPER] 튜터 승인 신청 결과 </h3>";
 		msgg += "<div style='font-size:130%; text-align: center;'>";
 		msgg += "<p>귀하께서 작성해주신 내용을 검토한 결과,</p>";
-		msgg += "<p>저희 모집요건에 부합하지 않아 튜터 승인심사가 반려되었음을 알려드립니다.</p>";
-		msgg += "<p>자세한 사유는 고객센터에 문의바랍니다. </p>";
-		msgg += "<p>앞으로도 변함없는 관심과 성원을 부탁드리며, 언제든지 재신청이 가능한 점 알려드립니다. </p>";
-		msgg += "<p>심사가 진행되는 동안 기다려주셔서 감사합니다.</p>";
-		msgg += "<br>";
-		msgg += "<p>귀하께서 작성해주신 내용을 검토한 결과,</p>";
 		msgg += "<p>튜터심사가 <strong>승인</strong>되었음을 알려드립니다.</p>";
 		msgg += "<br>";
 		msgg += "<p>앞으로도 변함없는 관심과 성원을 부탁드리며, 귀하와 성공적인 파트너 관계를 유지할 수 있기를 바랍니다.</p>";
@@ -222,7 +216,6 @@ public class EmailServiceImpl implements EmailService {
 		msgg += "<h3 style='color:blue;'> [DEVELOPER] 호스트 승인 신청 결과 </h3>";
 		msgg += "<div style='font-size:130%; text-align: center;'>";
 		msgg += "<p>귀하께서 작성해주신 내용을 검토한 결과,</p>";
-		msgg += "<p>저희 모집요건에 부합하지 않아 호스트 승인심사가 반려되었음을 알려드립니다.</p>";
 		msgg += "<p>저희 모집요건에 부합하지 않아 호스트회원 승인심사가 <strong>반려</strong>되었음을 알려드립니다.</p>";
 		msgg += "<p>자세한 사유는 고객센터에 문의바랍니다. </p>";
 		msgg += "<p>앞으로도 변함없는 관심과 성원을 부탁드리며, 언제든지 재신청이 가능한 점 알려드립니다. </p>";
