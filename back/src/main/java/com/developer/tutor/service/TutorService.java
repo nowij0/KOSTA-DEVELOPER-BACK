@@ -40,13 +40,13 @@ public class TutorService {
 	 * @param tDTO
 	 * @throws FindException
 	 */
-	public void saveTutor(TutorDTO.saveTutorDTO tDTO, String logined) throws FindException {
+	public void saveTutor(TutorDTO.saveTutorDTO tDTO, String logined, String fileName) throws FindException {
 		Optional<Tutor> t = tRepository.findById(logined);
 		Optional<Users> u = uRepository.findById(logined);
 		Tutor tEntity = new Tutor();
 
 		tEntity.setTutorId(logined);
-		tEntity.setTutorImg(tDTO.getTutorImg());
+		tEntity.setTutorImg(fileName);
 		tEntity.setInfo(tDTO.getInfo());
 		tEntity.setUsers(u.get());
 		if (!t.isPresent()) {
