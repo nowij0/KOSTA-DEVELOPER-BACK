@@ -116,11 +116,16 @@ public class TutorService {
 	 */
 	public void tutorApply(String tutorId) throws FindException, Exception {
 		Optional<Tutor> optT = tRepository.findById(tutorId);
+		Optional<Users> optU = uRepository.findById(tutorId);
+		
 		if (optT.isPresent()) {
 			Tutor entityT = optT.get();
-			emailService.tutorOk(entityT.getUsers().getEmail());
+			Users entityU = optU.get();
 			entityT.setApplyOk(1);
+			entityU.setRole(1);
 			tRepository.save(entityT);
+			uRepository.save(entityU);
+			emailService.tutorOk(entityT.getUsers().getEmail());
 		} else {
 			throw new FindException("해당 ID가 존재하지 않습니다.");
 		}
